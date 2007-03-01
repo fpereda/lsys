@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-char *rules['Z' - 'A'];
+char *rules[256];
 
 void compute_figure(const char *current, unsigned depth, int (*process)(int))
 {
@@ -25,10 +25,10 @@ void compute_figure(const char *current, unsigned depth, int (*process)(int))
 
 int main(int argc, char *argv[])
 {
-	char *axiom = "[F]4-F";
-	unsigned depth = 10;
+	char *axiom = "F-F-F-F-F-F";
+	unsigned depth = 1;
 
-	rules['F'] = "|[+F][-F]";
+	rules['F'] = "F+F--F+F";
 
 	compute_figure(axiom, depth, putchar);
 
