@@ -29,24 +29,38 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "lsys.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
-void compute_figure(const char *current, unsigned depth, int (*process)(int))
+#include "draw.h"
+
+int draw_rule(int rule)
 {
-	const char *p;
+	static int degree = 0;
+	static double x = 0, y = 0;
+	int drawline = 1;
 
-	if (depth <= 0) {
-		for (p = current; *p ; p++)
-			process(*p);
-		return;
-	}
+	switch (rule)
+	{
+		case 'H':
+			drawline = 0;
+		case 'F':
+			y += sin(degree * M_PI / 180);
+			x += cos(degree * M_PI / 180);
 
-	for (p = current; *p ; p++) {
-		char c = toupper(*p);
-		if (isalpha(c) && rules[c]) {
-			compute_figure(rules[c], depth - 1, process);
-		} else {
-			process(c);
-		}
+			if (drawline)
+				printf("cairo_line_to(cr, %f, %f);\n", x, y);
+			else
+				printf("cairo_cursor_to(cr, %f, %f);\n", x, y);
+
+			break;
+		case '+':
+			degree = (degree + degree_step) % 360;
+			break;
+		case '-':
+			degree = (360 + degree - degree_step) % 360;
+			break;
 	}
+	return rule;
 }

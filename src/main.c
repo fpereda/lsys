@@ -29,24 +29,21 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "lsys.h"
+#include "draw.h"
 
-void compute_figure(const char *current, unsigned depth, int (*process)(int))
+int main(int argc, char *argv[])
 {
-	const char *p;
+	char *axiom = "F-F-F-F-F-F";
+	unsigned depth = 1;
 
-	if (depth <= 0) {
-		for (p = current; *p ; p++)
-			process(*p);
-		return;
-	}
+	rules['F'] = "F+F--F+F";
 
-	for (p = current; *p ; p++) {
-		char c = toupper(*p);
-		if (isalpha(c) && rules[c]) {
-			compute_figure(rules[c], depth - 1, process);
-		} else {
-			process(c);
-		}
-	}
+	degree_step = 60;
+	compute_figure(axiom, depth, draw_rule);
+
+	return EXIT_SUCCESS;
 }

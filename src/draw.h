@@ -29,24 +29,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "lsys.h"
+#ifndef __DRAW_H
+#define __DRAW_H 1
 
-void compute_figure(const char *current, unsigned depth, int (*process)(int))
-{
-	const char *p;
+int degree_step;
+int draw_rule(int rule);
 
-	if (depth <= 0) {
-		for (p = current; *p ; p++)
-			process(*p);
-		return;
-	}
-
-	for (p = current; *p ; p++) {
-		char c = toupper(*p);
-		if (isalpha(c) && rules[c]) {
-			compute_figure(rules[c], depth - 1, process);
-		} else {
-			process(c);
-		}
-	}
-}
+#endif
