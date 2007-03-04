@@ -34,5 +34,7 @@
 
 char *rules[256];
 void compute_figure(const char *current, unsigned depth, int (*process)(int));
+int degree_step;
+void position_after_rule(int rule, int *degree, double *x, double *y);
 
 #endif

@@ -31,7 +31,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <cairo.h>
 
 #include "draw.h"
@@ -42,26 +41,12 @@ int draw_rule(int rule)
 	static double x = 0, y = 0;
 	int drawline = 1;
 
-	switch (rule)
-	{
-		case 'G':
-			drawline = 0;
-		case 'F':
-			y += sin(degree * M_PI / 180);
-			x += cos(degree * M_PI / 180);
+	position_after_rule(rule, &degree, &x, &y);
 
-			if (drawline)
-				cairo_line_to(cr, x, y);
-			else
-				cairo_move_to(cr, x, y);
+	if (rule == 'F')
+		cairo_line_to(cr, x, y);
+	else if (rule == 'G')
+		cairo_move_to(cr, x, y);
 
-			break;
-		case '+':
-			degree = (degree + degree_step) % 360;
-			break;
-		case '-':
-			degree = (360 + degree - degree_step) % 360;
-			break;
-	}
 	return rule;
 }

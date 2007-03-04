@@ -37,7 +37,23 @@
 #include "draw.h"
 
 char *axiom = "F-F-F-F-F-F";
-unsigned int depth = 1;
+unsigned int depth = 4;
+double max_x, max_y, min_x, min_y;
+
+int calcule_limits(int rule)
+{
+	static double x = 0, y = 0;
+	static int degree = 0;
+
+	position_after_rule(rule, &degree, &x, &y);
+
+	max_x = MAX(max_x, x);
+	max_y = MAX(max_y, y);
+	min_x = MIN(min_x, x);
+	min_y = MIN(min_y, y);
+
+	return rule;
+}
 
 static gboolean handle_expose(GtkWidget *widget,
 		GdkEventExpose *event,
@@ -76,8 +92,11 @@ static gboolean handle_expose(GtkWidget *widget,
 int main(int argc, char *argv[])
 {
 	degree_step = 60;
-	rules['F'] = "F+F--F+F";
+	rules['F'] = "F-F++F-F";
 	cr = NULL;
+
+	compute_figure(axiom, depth, calcule_limits);
+	printf("limits: MX:%f MY:%f mX:%f mY:%f\n", max_x, max_y, min_x, min_y);
 
 	GtkWidget *window;
 	GtkWidget *drawing_area, *menu_bar;

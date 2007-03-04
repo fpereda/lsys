@@ -30,6 +30,7 @@
  */
 
 #include "lsys.h"
+#include "math.h"
 
 void compute_figure(const char *current, unsigned depth, int (*process)(int))
 {
@@ -48,5 +49,25 @@ void compute_figure(const char *current, unsigned depth, int (*process)(int))
 		} else {
 			process(c);
 		}
+	}
+}
+
+void position_after_rule(int rule, int *degree, double *x, double *y)
+{
+	switch (rule)
+	{
+		case 'G':
+		case 'F':
+			*y += sin(*degree * M_PI / 180);
+			*x += cos(*degree * M_PI / 180);
+			break;
+		case '+':
+			*degree += degree_step;
+			*degree %= 360;
+			break;
+		case '-':
+			*degree -= degree_step;
+			*degree %= 360;
+			break;
 	}
 }
