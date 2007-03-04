@@ -66,9 +66,9 @@ static gboolean handle_expose(GtkWidget *widget,
 
 	cairo_rectangle(cr,event->area.x, event->area.y,
 			width, height);
-	cairo_scale(cr, 10, 10);
-	cairo_translate(cr, 7.5, 7.5);
-	cairo_set_line_width(cr, 0.04);
+	cairo_scale(cr, width / (ABS(max_x - min_x) + 2), height / (ABS(max_y - min_y) + 2));
+	cairo_translate(cr, ABS(min_x - 1), ABS(min_y - 1));
+	cairo_set_line_width(cr, width * 0.001);
 	cairo_clip(cr);
 
 	/* Background */
@@ -92,7 +92,7 @@ static gboolean handle_expose(GtkWidget *widget,
 int main(int argc, char *argv[])
 {
 	degree_step = 60;
-	rules['F'] = "F-F++F-F";
+	rules['F'] = "F+F--F+F";
 	cr = NULL;
 
 	compute_figure(axiom, depth, calcule_limits);
