@@ -36,8 +36,8 @@
 #include "lsys.h"
 #include "draw.h"
 
-char *axiom = "F-F-F-F-F-F";
-unsigned int depth = 4;
+char *axiom = "FX";
+unsigned int depth = 14;
 double max_x, max_y, min_x, min_y;
 
 int calcule_limits(int rule)
@@ -62,14 +62,20 @@ static gboolean handle_expose(GtkWidget *widget,
 	const int width = event->area.width;
 	const int height = event->area.height;
 
-	if(!cr) cr = gdk_cairo_create(widget->window);
+	cr = gdk_cairo_create(widget->window);
 
-	cairo_rectangle(cr,event->area.x, event->area.y,
+	cairo_rectangle(cr,
+			event->area.x, event->area.y,
 			width, height);
-	cairo_scale(cr, width / (ABS(max_x - min_x) + 2), height / (ABS(max_y - min_y) + 2));
-	cairo_translate(cr, ABS(min_x - 1), ABS(min_y - 1));
-	cairo_set_line_width(cr, width * 0.001);
+	cairo_scale(cr,
+			width / (ABS(max_x - min_x) + 2),
+			height / (ABS(max_y - min_y) + 2));
+	cairo_translate(cr,
+			ABS(min_x - 1),
+			ABS(min_y - 1));
 	cairo_clip(cr);
+
+	cairo_set_line_width(cr, ABS(max_x - min_x) * 0.001);
 
 	/* Background */
 	cairo_save(cr);
@@ -82,17 +88,23 @@ static gboolean handle_expose(GtkWidget *widget,
 	cairo_save(cr);
 	cairo_set_source_rgba(cr, 0, 0, 0, 1);
 	cairo_move_to(cr, 0, 0);
+	draw_rule('#');
 	compute_figure(axiom, depth, draw_rule);
 	cairo_stroke(cr);
 	cairo_restore(cr);
+
+	cairo_destroy(cr);
 
 	return FALSE;
 }
 
 int main(int argc, char *argv[])
 {
-	degree_step = 60;
-	rules['F'] = "F+F--F+F";
+	degree_step = -45;
+	rules['F'] = "";
+	rules['Y'] = "+FX--FY+";
+	rules['X'] = "-FX++FY-";
+
 	cr = NULL;
 
 	compute_figure(axiom, depth, calcule_limits);

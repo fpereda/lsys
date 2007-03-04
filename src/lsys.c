@@ -56,6 +56,11 @@ void position_after_rule(int rule, int *degree, double *x, double *y)
 {
 	switch (rule)
 	{
+		case '#':
+			*x = 0;
+			*y = 0;
+			*degree = 0;
+			break;
 		case 'G':
 		case 'F':
 			*y += sin(*degree * M_PI / 180);
