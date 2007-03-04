@@ -43,8 +43,26 @@ static gboolean handle_expose(GtkWidget *widget,
 		GdkEventExpose	*event,
 		gpointer		data)
 {
-	cr = gdk_cairo_create(widget->window);
+	if(!cr) cr = gdk_cairo_create(widget->window);
+
+	cairo_set_line_width(cr,1);
+	cairo_rectangle(cr,event->area.x, event->area.y,
+			event->area.width, event->area.height);
+	cairo_clip(cr);
+
+	/* Background */
+	cairo_save(cr);
+	cairo_set_source_rgba(cr,0.337, 0.612, 0.117, 0.9);   // green
+	cairo_paint(cr);
+	cairo_stroke(cr);
+	cairo_restore(cr);
+
+	/* Paint! */
+	cairo_save(cr);
+	cairo_set_source_rgba(cr,0, 0, 0, 1);
 	compute_figure(axiom, depth, draw_rule);
+	cairo_stroke(cr);
+	cairo_restore(cr);
 
 	return FALSE;
 }
@@ -53,6 +71,7 @@ int main(int argc, char *argv[])
 {
 	degree_step = 60;
 	rules['F'] = "F+F--F+F";
+	cr = NULL;
 
 	GtkWidget *window;
 	GtkWidget *drawing_area, *menu_bar;
@@ -70,14 +89,14 @@ int main(int argc, char *argv[])
 	drawing_area = gtk_drawing_area_new();
 	g_signal_connect (drawing_area, "expose-event",
 			G_CALLBACK (handle_expose), NULL);
-	
+
 	/* Set UI */
 	/* ...    */
 
 	/* Layout */
 	lyout_top = gtk_vbox_new(FALSE,5);
 	/*menu_bar = gtk_menu_bar_new();
-	gtk_container_add(GTK_CONTAINER (lyout_top), menu_bar);*/
+	  gtk_container_add(GTK_CONTAINER (lyout_top), menu_bar);*/
 	gtk_container_add(GTK_CONTAINER (lyout_top), drawing_area);
 	gtk_container_add(GTK_CONTAINER (window), lyout_top);
 
