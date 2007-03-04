@@ -33,7 +33,6 @@
 #define __LSYS_H 1
 
 char *rules[256];
-
 void compute_figure(const char *current, unsigned depth, int (*process)(int));
 
 #endif

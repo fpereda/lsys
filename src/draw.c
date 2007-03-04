@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <cairo.h>
 
 #include "draw.h"
 
@@ -50,9 +51,9 @@ int draw_rule(int rule)
 			x += cos(degree * M_PI / 180);
 
 			if (drawline)
-				printf("cairo_line_to(cr, %f, %f);\n", x, y);
+				cairo_line_to(cr, x, y);
 			else
-				printf("cairo_cursor_to(cr, %f, %f);\n", x, y);
+				cairo_move_to(cr, x, y);
 
 			break;
 		case '+':

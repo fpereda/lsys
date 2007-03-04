@@ -31,19 +31,58 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <gtk/gtk.h>
 
 #include "lsys.h"
 #include "draw.h"
 
+char *axiom = "F-F-F-F-F-F";
+unsigned int depth = 1;
+
+static gboolean handle_expose(GtkWidget *widget, 
+		GdkEventExpose	*event,
+		gpointer		data)
+{
+	cr = gdk_cairo_create(widget->window);
+	compute_figure(axiom, depth, draw_rule);
+
+	return FALSE;
+}
+
 int main(int argc, char *argv[])
 {
-	char *axiom = "F-F-F-F-F-F";
-	unsigned depth = 1;
-
+	degree_step = 60;
 	rules['F'] = "F+F--F+F";
 
-	degree_step = 60;
-	compute_figure(axiom, depth, draw_rule);
+	GtkWidget *window;
+	GtkWidget *drawing_area, *menu_bar;
+	GtkWidget *lyout_top;
+
+	gtk_init(&argc, &argv);
+
+	/* Set up window */
+	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title(GTK_WINDOW (window), "lsys");
+	g_signal_connect(window, "destroy",
+			G_CALLBACK (gtk_main_quit), NULL);
+
+	/* Set drawing area */
+	drawing_area = gtk_drawing_area_new();
+	g_signal_connect (drawing_area, "expose-event",
+			G_CALLBACK (handle_expose), NULL);
+	
+	/* Set UI */
+	/* ...    */
+
+	/* Layout */
+	lyout_top = gtk_vbox_new(FALSE,5);
+	/*menu_bar = gtk_menu_bar_new();
+	gtk_container_add(GTK_CONTAINER (lyout_top), menu_bar);*/
+	gtk_container_add(GTK_CONTAINER (lyout_top), drawing_area);
+	gtk_container_add(GTK_CONTAINER (window), lyout_top);
+
+	gtk_widget_show_all(window);
+	gtk_main();
 
 	return EXIT_SUCCESS;
 }

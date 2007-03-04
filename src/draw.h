@@ -33,6 +33,7 @@
 #define __DRAW_H 1
 
 int degree_step;
+cairo_t *cr;
 int draw_rule(int rule);
 
 #endif
