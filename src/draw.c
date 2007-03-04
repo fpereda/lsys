@@ -47,8 +47,8 @@ int draw_rule(int rule)
 		case 'G':
 			drawline = 0;
 		case 'F':
-			y += sin(degree * M_PI / 180)*70;
-			x += cos(degree * M_PI / 180)*70;
+			y += sin(degree * M_PI / 180);
+			x += cos(degree * M_PI / 180);
 
 			if (drawline)
 				cairo_line_to(cr, x, y);

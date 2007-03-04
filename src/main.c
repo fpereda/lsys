@@ -39,27 +39,33 @@
 char *axiom = "F-F-F-F-F-F";
 unsigned int depth = 1;
 
-static gboolean handle_expose(GtkWidget *widget, 
-		GdkEventExpose	*event,
-		gpointer		data)
+static gboolean handle_expose(GtkWidget *widget,
+		GdkEventExpose *event,
+		gpointer data)
 {
+	const int width = event->area.width;
+	const int height = event->area.height;
+
 	if(!cr) cr = gdk_cairo_create(widget->window);
 
-	cairo_set_line_width(cr,1);
 	cairo_rectangle(cr,event->area.x, event->area.y,
-			event->area.width, event->area.height);
+			width, height);
+	cairo_scale(cr, 10, 10);
+	cairo_translate(cr, 7.5, 7.5);
+	cairo_set_line_width(cr, 0.04);
 	cairo_clip(cr);
 
 	/* Background */
 	cairo_save(cr);
-	cairo_set_source_rgba(cr,0.337, 0.612, 0.117, 0.9);   // green
+	cairo_set_source_rgba(cr, 0.337, 0.612, 0.117, 0.9);   // green
 	cairo_paint(cr);
 	cairo_stroke(cr);
 	cairo_restore(cr);
 
 	/* Paint! */
 	cairo_save(cr);
-	cairo_set_source_rgba(cr,0, 0, 0, 1);
+	cairo_set_source_rgba(cr, 0, 0, 0, 1);
+	cairo_move_to(cr, 0, 0);
 	compute_figure(axiom, depth, draw_rule);
 	cairo_stroke(cr);
 	cairo_restore(cr);
