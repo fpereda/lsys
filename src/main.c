@@ -59,14 +59,17 @@ static gboolean handle_expose(GtkWidget *widget,
 		GdkEventExpose *event,
 		gpointer data)
 {
-	const int width = event->area.width;
-	const int height = event->area.height;
+	gint width;
+	gint height;
+	gdk_drawable_get_size(widget->window, &width, &height);
+
+	gint x;
+	gint y;
+	gdk_window_get_position(widget->window, &x, &y);
 
 	cr = gdk_cairo_create(widget->window);
 
-	cairo_rectangle(cr,
-			event->area.x, event->area.y,
-			width, height);
+	cairo_rectangle(cr,	x, y, width, height);
 	cairo_scale(cr,
 			width / (max_x - min_x + (MARGIN * 2)),
 			height / (max_y - min_y + (MARGIN * 2)));
