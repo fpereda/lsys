@@ -37,7 +37,7 @@
 #include "draw.h"
 
 char *axiom = "FX";
-unsigned int depth = 14;
+unsigned int depth = 16;
 double max_x, max_y, min_x, min_y;
 
 int calcule_limits(int rule)

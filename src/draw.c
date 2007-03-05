@@ -37,9 +37,18 @@
 
 int draw_rule(int rule)
 {
+	static const int iteraciones_por_contexto = 10000;
+	static unsigned cnt = 0;
 	static int degree = 0;
 	static double x = 0, y = 0;
 	int drawline = 1;
+
+	if (cnt == 0) {
+		cnt = iteraciones_por_contexto;
+		cairo_save(cr);
+	}
+
+	cnt--;
 
 	position_after_rule(rule, &degree, &x, &y);
 
@@ -47,6 +56,12 @@ int draw_rule(int rule)
 		cairo_line_to(cr, x, y);
 	else if (rule == 'G')
 		cairo_move_to(cr, x, y);
+
+	if (cnt == 0) {
+		cairo_stroke(cr);
+		cairo_restore(cr);
+		cairo_move_to(cr, x, y);
+	}
 
 	return rule;
 }
