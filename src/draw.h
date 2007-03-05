@@ -32,6 +32,8 @@
 #ifndef __DRAW_H
 #define __DRAW_H 1
 
+#define MARGIN 1
+
 cairo_t *cr;
 int draw_rule(int rule);
 

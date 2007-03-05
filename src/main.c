@@ -68,14 +68,14 @@ static gboolean handle_expose(GtkWidget *widget,
 			event->area.x, event->area.y,
 			width, height);
 	cairo_scale(cr,
-			width / (ABS(max_x - min_x) + 2),
-			height / (ABS(max_y - min_y) + 2));
+			width / (max_x - min_x + (MARGIN * 2)),
+			height / (max_y - min_y + (MARGIN * 2)));
 	cairo_translate(cr,
-			ABS(min_x - 1),
-			ABS(min_y - 1));
+			ABS(min_x - MARGIN),
+			ABS(min_y - MARGIN));
 	cairo_clip(cr);
 
-	cairo_set_line_width(cr, ABS(max_x - min_x) * 0.001);
+	cairo_set_line_width(cr, (max_x - min_x) * 0.001);
 
 	/* Background */
 	cairo_save(cr);
@@ -108,7 +108,6 @@ int main(int argc, char *argv[])
 	cr = NULL;
 
 	compute_figure(axiom, depth, calcule_limits);
-	printf("limits: MX:%f MY:%f mX:%f mY:%f\n", max_x, max_y, min_x, min_y);
 
 	GtkWidget *window;
 	GtkWidget *drawing_area, *menu_bar;
@@ -119,6 +118,13 @@ int main(int argc, char *argv[])
 	/* Set up window */
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW (window), "lsys");
+	
+	double max = MAX(max_x - min_x + (MARGIN * 2),
+			max_y - min_y + (MARGIN * 2));
+	gtk_window_set_default_size(GTK_WINDOW (window),
+			(max_x - min_x + (MARGIN * 2)) / max * 600,
+			(max_y - min_y + (MARGIN * 2)) / max * 600);
+
 	g_signal_connect(window, "destroy",
 			G_CALLBACK (gtk_main_quit), NULL);
 
