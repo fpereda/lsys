@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <gtk/gtk.h>
+#include <math.h>
 
 #include "lsys.h"
 #include "draw.h"
@@ -43,7 +44,7 @@ double max_x, max_y, min_x, min_y;
 int calcule_limits(int rule)
 {
 	static double x = 0, y = 0;
-	static int degree = 0;
+	static long double degree = 0;
 
 	position_after_rule(rule, &degree, &x, &y);
 
@@ -104,6 +105,9 @@ static gboolean handle_expose(GtkWidget *widget,
 int main(int argc, char *argv[])
 {
 	degree_step = 45;
+
+	degree_step *= M_PI / 180;
+
 	rules['F'] = "";
 	rules['Y'] = "+FX--FY+";
 	rules['X'] = "-FX++FY-";

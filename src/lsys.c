@@ -52,7 +52,7 @@ void compute_figure(const char *current, unsigned depth, int (*process)(int))
 	}
 }
 
-void position_after_rule(int rule, int *degree, double *x, double *y)
+void position_after_rule(int rule, long double *degree, double *x, double *y)
 {
 	switch (rule)
 	{
@@ -63,16 +63,14 @@ void position_after_rule(int rule, int *degree, double *x, double *y)
 			break;
 		case 'G':
 		case 'F':
-			*y += sin(*degree * M_PI / 180);
-			*x += cos(*degree * M_PI / 180);
+			*y += sin(*degree);
+			*x += cos(*degree);
 			break;
 		case '+':
 			*degree -= degree_step;
-			*degree %= 360;
 			break;
 		case '-':
 			*degree += degree_step;
-			*degree %= 360;
 			break;
 	}
 }

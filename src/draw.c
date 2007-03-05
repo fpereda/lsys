@@ -39,7 +39,7 @@ int draw_rule(int rule)
 {
 	static const int iteraciones_por_contexto = 10000;
 	static unsigned cnt = 0;
-	static int degree = 0;
+	static long double degree = 0;
 	static double x = 0, y = 0;
 	int drawline = 1;
 
