@@ -103,7 +103,7 @@ static gboolean handle_expose(GtkWidget *widget,
 
 int main(int argc, char *argv[])
 {
-	degree_step = -45;
+	degree_step = 45;
 	rules['F'] = "";
 	rules['Y'] = "+FX--FY+";
 	rules['X'] = "-FX++FY-";
