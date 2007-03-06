@@ -34,6 +34,7 @@
 #include <cairo.h>
 
 #include "draw.h"
+#include "lsys.h"
 
 int draw_rule(int rule)
 {

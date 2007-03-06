@@ -29,8 +29,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+
+#include <math.h>
+#include <ctype.h>
+
 #include "lsys.h"
-#include "math.h"
 
 void compute_figure(const char *current, unsigned depth, int (*process)(int))
 {
@@ -44,7 +47,7 @@ void compute_figure(const char *current, unsigned depth, int (*process)(int))
 	}
 
 	for (p = current; *p ; p++) {
-		char c = toupper(*p);
+		int c = toupper(*p);
 		if (isalpha(c) && opts->rules[c]) {
 			compute_figure(opts->rules[c], depth - 1, process);
 		} else {

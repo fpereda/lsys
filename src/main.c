@@ -118,7 +118,8 @@ int main(int argc, char *argv[])
 	compute_figure(opts->axiom, opts->depth, calcule_limits);
 
 	GtkWidget *window;
-	GtkWidget *drawing_area, *menu_bar;
+	GtkWidget *drawing_area;
+	// GtkWidget *menu_bar;
 	GtkWidget *lyout_top;
 
 	gtk_init(&argc, &argv);
