@@ -37,8 +37,6 @@
 #include "lsys.h"
 #include "draw.h"
 
-char *axiom = "FX";
-unsigned int depth = 16;
 double max_x, max_y, min_x, min_y;
 
 int calcule_limits(int rule)
@@ -60,6 +58,7 @@ static gboolean handle_expose(GtkWidget *widget,
 		GdkEventExpose *event,
 		gpointer data)
 {
+	struct lsys_opts *opts = get_lsys_opts();
 	gint width;
 	gint height;
 	gdk_drawable_get_size(widget->window, &width, &height);
@@ -92,7 +91,7 @@ static gboolean handle_expose(GtkWidget *widget,
 	cairo_save(cr);
 	cairo_set_source_rgba(cr, 0, 0, 0, 1);
 	draw_rule('#');
-	compute_figure(axiom, depth, draw_rule);
+	compute_figure(opts->axiom, opts->depth, draw_rule);
 	cairo_stroke(cr);
 	cairo_restore(cr);
 
@@ -103,17 +102,20 @@ static gboolean handle_expose(GtkWidget *widget,
 
 int main(int argc, char *argv[])
 {
-	degree_step = 45;
+	struct lsys_opts *opts = get_lsys_opts();
+	opts->axiom = "FX";
+	opts->depth = 16;
+	opts->degree_step = 45;
 
-	degree_step *= M_PI / 180;
+	opts->degree_step *= M_PI / 180;
 
-	rules['F'] = "";
-	rules['Y'] = "+FX--FY+";
-	rules['X'] = "-FX++FY-";
+	opts->rules['F'] = "";
+	opts->rules['Y'] = "+FX--FY+";
+	opts->rules['X'] = "-FX++FY-";
 
 	cr = NULL;
 
-	compute_figure(axiom, depth, calcule_limits);
+	compute_figure(opts->axiom, opts->depth, calcule_limits);
 
 	GtkWidget *window;
 	GtkWidget *drawing_area, *menu_bar;

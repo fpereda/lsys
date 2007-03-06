@@ -32,9 +32,18 @@
 #ifndef __LSYS_H
 #define __LSYS_H 1
 
-char *rules[256];
+#include <unistd.h>
+
+struct lsys_opts {
+	char *axiom;
+	char *rules[256];
+	unsigned depth;
+	long double degree_step;
+	long double initial_degree;
+};
+
+struct lsys_opts *get_lsys_opts(void);
 void compute_figure(const char *current, unsigned depth, int (*process)(int));
-long double degree_step;
 void position_after_rule(int rule, long double *degree, double *x, double *y);
 
 #endif

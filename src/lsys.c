@@ -35,6 +35,7 @@
 void compute_figure(const char *current, unsigned depth, int (*process)(int))
 {
 	const char *p;
+	struct lsys_opts *opts = get_lsys_opts();
 
 	if (depth <= 0) {
 		for (p = current; *p ; p++)
@@ -44,8 +45,8 @@ void compute_figure(const char *current, unsigned depth, int (*process)(int))
 
 	for (p = current; *p ; p++) {
 		char c = toupper(*p);
-		if (isalpha(c) && rules[c]) {
-			compute_figure(rules[c], depth - 1, process);
+		if (isalpha(c) && opts->rules[c]) {
+			compute_figure(opts->rules[c], depth - 1, process);
 		} else {
 			process(c);
 		}
@@ -54,6 +55,7 @@ void compute_figure(const char *current, unsigned depth, int (*process)(int))
 
 void position_after_rule(int rule, long double *degree, double *x, double *y)
 {
+	struct lsys_opts *opts = get_lsys_opts();
 	switch (rule)
 	{
 		case '#':
@@ -67,10 +69,32 @@ void position_after_rule(int rule, long double *degree, double *x, double *y)
 			*x += cos(*degree);
 			break;
 		case '+':
-			*degree -= degree_step;
+			*degree -= opts->degree_step;
 			break;
 		case '-':
-			*degree += degree_step;
+			*degree += opts->degree_step;
 			break;
 	}
+}
+
+struct lsys_opts *get_lsys_opts(void)
+{
+	static struct lsys_opts opts;
+	static struct lsys_opts *p;
+
+	if (p == NULL) {
+		p = &opts;
+		opts.axiom = "F";
+
+#define SIZEOF_ARRAY(a) (sizeof(a)/sizeof(a[0]))
+		unsigned i;
+		for (i = 0; i < SIZEOF_ARRAY(opts.rules); i++)
+			opts.rules[i] = 0;
+
+		opts.depth = 0;
+		opts.degree_step = 45;
+		opts.initial_degree = 0;
+	}
+
+	return p;
 }
