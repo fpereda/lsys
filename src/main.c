@@ -2,6 +2,7 @@
 
 /*
  * Copyright (c) 2007, Fernando J. Pereda <ferdy@gentoo.org>
+ * Copyright (c) 2007, Francesc Gordillo <frangor@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,15 +42,14 @@ double max_x, max_y, min_x, min_y;
 
 int calcule_limits(int rule)
 {
-	static double x = 0, y = 0;
-	static long double degree = 0;
+	static struct position pos = {0, 0, 0};
 
-	position_after_rule(rule, &degree, &x, &y);
+	position_after_rule(rule, &pos);
 
-	max_x = MAX(max_x, x);
-	max_y = MAX(max_y, y);
-	min_x = MIN(min_x, x);
-	min_y = MIN(min_y, y);
+	max_x = MAX(max_x, pos.x);
+	max_y = MAX(max_y, pos.y);
+	min_x = MIN(min_x, pos.x);
+	min_y = MIN(min_y, pos.y);
 
 	return rule;
 }

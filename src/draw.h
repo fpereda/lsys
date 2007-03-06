@@ -2,6 +2,7 @@
 
 /*
  * Copyright (c) 2007, Fernando J. Pereda <ferdy@gentoo.org>
+ * Copyright (c) 2007, Francesc Gordillo <frangor@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

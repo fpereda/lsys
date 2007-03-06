@@ -2,6 +2,7 @@
 
 /*
  * Copyright (c) 2007, Fernando J. Pereda <ferdy@gentoo.org>
+ * Copyright (c) 2007, Francesc Gordillo <frangor@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,26 +57,26 @@ void compute_figure(const char *current, unsigned depth, int (*process)(int))
 	}
 }
 
-void position_after_rule(int rule, long double *degree, double *x, double *y)
+void position_after_rule(int rule, struct position *pos)
 {
 	struct lsys_opts *opts = get_lsys_opts();
 	switch (rule)
 	{
 		case '#':
-			*x = 0;
-			*y = 0;
-			*degree = 0;
+			pos->x = 0;
+			pos->y = 0;
+			pos->degree = 0;
 			break;
 		case 'G':
 		case 'F':
-			*y += sin(*degree);
-			*x += cos(*degree);
+			pos->y += sin(pos->degree);
+			pos->x += cos(pos->degree);
 			break;
 		case '+':
-			*degree -= opts->degree_step;
+			pos->degree -= opts->degree_step;
 			break;
 		case '-':
-			*degree += opts->degree_step;
+			pos->degree += opts->degree_step;
 			break;
 	}
 }

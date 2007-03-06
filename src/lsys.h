@@ -2,6 +2,7 @@
 
 /*
  * Copyright (c) 2007, Fernando J. Pereda <ferdy@gentoo.org>
+ * Copyright (c) 2007, Francesc Gordillo <frangor@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,6 +35,12 @@
 
 #include <unistd.h>
 
+struct position {
+	double x;
+	double y;
+	long double degree;
+};
+
 struct lsys_opts {
 	char *axiom;
 	char *rules[256];
@@ -44,6 +51,6 @@ struct lsys_opts {
 
 struct lsys_opts *get_lsys_opts(void);
 void compute_figure(const char *current, unsigned depth, int (*process)(int));
-void position_after_rule(int rule, long double *degree, double *x, double *y);
+void position_after_rule(int rule, struct position *pos);
 
 #endif

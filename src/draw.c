@@ -2,6 +2,7 @@
 
 /*
  * Copyright (c) 2007, Fernando J. Pereda <ferdy@gentoo.org>
+ * Copyright (c) 2007, Francesc Gordillo <frangor@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,8 +41,7 @@ int draw_rule(int rule)
 {
 	static const int iter_per_context = 10000;
 	static unsigned cnt = 0;
-	static long double degree = 0;
-	static double x = 0, y = 0;
+	static struct position pos = {0, 0, 0};
 
 	if (cnt == 0) {
 		cnt = iter_per_context;
@@ -50,17 +50,17 @@ int draw_rule(int rule)
 
 	cnt--;
 
-	position_after_rule(rule, &degree, &x, &y);
+	position_after_rule(rule, &pos);
 
 	if (rule == 'F')
-		cairo_line_to(cr, x, y);
+		cairo_line_to(cr, pos.x, pos.y);
 	else if (rule == 'G')
-		cairo_move_to(cr, x, y);
+		cairo_move_to(cr, pos.x, pos.y);
 
 	if (cnt == 0) {
 		cairo_stroke(cr);
 		cairo_restore(cr);
-		cairo_move_to(cr, x, y);
+		cairo_move_to(cr, pos.x, pos.y);
 	}
 
 	return rule;
