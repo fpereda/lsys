@@ -91,7 +91,6 @@ static gboolean handle_expose(GtkWidget *widget,
 	/* Paint! */
 	cairo_save(cr);
 	cairo_set_source_rgba(cr, 0, 0, 0, 1);
-	cairo_move_to(cr, 0, 0);
 	draw_rule('#');
 	compute_figure(axiom, depth, draw_rule);
 	cairo_stroke(cr);
