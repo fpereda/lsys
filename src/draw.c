@@ -41,7 +41,6 @@ int draw_rule(int rule)
 	static unsigned cnt = 0;
 	static long double degree = 0;
 	static double x = 0, y = 0;
-	int drawline = 1;
 
 	if (cnt == 0) {
 		cnt = iter_per_context;
