@@ -3,6 +3,7 @@
 /*
  * Copyright (c) 2007, Fernando J. Pereda <ferdy@gentoo.org>
  * Copyright (c) 2007, Francesc Gordillo <frangor@gmail.com>
+ * Copyright (c) 2007, Santiago M. Mola Velasco <cooldwind@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,61 +31,12 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <stdlib.h>
+#ifndef __GUI_H
+#define __GUI_H 1
+
 #include <gtk/gtk.h>
-#include <math.h>
 
-#include "lsys.h"
-#include "draw.h"
-#include "gui.h"
+gboolean handle_expose(GtkWidget *widget,
+		GdkEventExpose *event, gpointer data);
 
-int main(int argc, char *argv[])
-{
-	struct lsys_opts *opts = get_lsys_opts();
-	opts->axiom = "FX";
-	opts->depth = 16;
-	opts->degree_step = M_PI / 4;
-
-	opts->rules['F'] = "";
-	opts->rules['Y'] = "+FX--FY+";
-	opts->rules['X'] = "-FX++FY-";
-
-	cr = NULL;
-
-	GtkWidget *window;
-	GtkWidget *drawing_area;
-	GtkWidget *lyout_top;
-
-	gtk_init(&argc, &argv);
-
-	/* Set up window */
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(window), "lsys");
-
-	double width;
-	double height;
-	draw_size(&width, &height);
-	gtk_widget_set_size_request(window, width, height);
-	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
-
-	g_signal_connect(window, "destroy",
-			G_CALLBACK(gtk_main_quit), NULL);
-
-	/* Set drawing area */
-	drawing_area = gtk_drawing_area_new();
-	g_signal_connect(drawing_area, "expose-event",
-			G_CALLBACK(handle_expose), NULL);
-
-	/* Set UI */
-	/* ...    */
-
-	/* Layout */
-	lyout_top = gtk_vbox_new(FALSE,5);
-	gtk_container_add(GTK_CONTAINER(lyout_top), drawing_area);
-	gtk_container_add(GTK_CONTAINER(window), lyout_top);
-
-	gtk_widget_show_all(window);
-	gtk_main();
-
-	return EXIT_SUCCESS;
-}
+#endif

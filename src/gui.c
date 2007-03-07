@@ -3,6 +3,7 @@
 /*
  * Copyright (c) 2007, Fernando J. Pereda <ferdy@gentoo.org>
  * Copyright (c) 2007, Francesc Gordillo <frangor@gmail.com>
+ * Copyright (c) 2007, Santiago M. Mola Velasco <cooldwind@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,61 +31,66 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <stdlib.h>
-#include <gtk/gtk.h>
-#include <math.h>
+#include <cairo.h>
 
+#include "gui.h"
 #include "lsys.h"
 #include "draw.h"
-#include "gui.h"
 
-int main(int argc, char *argv[])
+gboolean handle_expose(GtkWidget *widget,
+		GdkEventExpose *event, gpointer data)
 {
-	struct lsys_opts *opts = get_lsys_opts();
-	opts->axiom = "FX";
-	opts->depth = 16;
-	opts->degree_step = M_PI / 4;
+	if (!sur) {
+		struct lsys_opts *opts = get_lsys_opts();
+		const struct lsys_limits *lims = get_lsys_limits();
 
-	opts->rules['F'] = "";
-	opts->rules['Y'] = "+FX--FY+";
-	opts->rules['X'] = "-FX++FY-";
+		double max_x = lims->max_x;
+		double max_y = lims->max_y;
+		double min_x = lims->min_x;
+		double min_y = lims->min_y;
 
-	cr = NULL;
+		gint width;
+		gint height;
+		gdk_drawable_get_size(widget->window, &width, &height);
 
-	GtkWidget *window;
-	GtkWidget *drawing_area;
-	GtkWidget *lyout_top;
 
-	gtk_init(&argc, &argv);
+		sur = cairo_image_surface_create(
+					CAIRO_FORMAT_A8, width, height);
 
-	/* Set up window */
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(window), "lsys");
+		cr = cairo_create(sur);
 
-	double width;
-	double height;
-	draw_size(&width, &height);
-	gtk_widget_set_size_request(window, width, height);
-	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
+		cairo_scale(cr,
+				width / (max_x - min_x + (MARGIN * 2)),
+				height / (max_y - min_y + (MARGIN * 2)));
+		cairo_translate(cr,
+				ABS(min_x - MARGIN),
+				ABS(min_y - MARGIN));
 
-	g_signal_connect(window, "destroy",
-			G_CALLBACK(gtk_main_quit), NULL);
+		cairo_set_line_width(cr, (max_x - min_x) * 0.001);
 
-	/* Set drawing area */
-	drawing_area = gtk_drawing_area_new();
-	g_signal_connect(drawing_area, "expose-event",
-			G_CALLBACK(handle_expose), NULL);
+		/* Paint! */
+		cairo_save(cr);
+		cairo_set_source_rgb(cr, 0, 0, 0);
+		draw_rule('#');
+		compute_figure(opts->axiom, opts->depth, draw_rule);
+		cairo_stroke(cr);
+		cairo_restore(cr);
 
-	/* Set UI */
-	/* ...    */
+		cairo_destroy(cr);
+	}
 
-	/* Layout */
-	lyout_top = gtk_vbox_new(FALSE,5);
-	gtk_container_add(GTK_CONTAINER(lyout_top), drawing_area);
-	gtk_container_add(GTK_CONTAINER(window), lyout_top);
+	cairo_t *rcr = gdk_cairo_create(widget->window);
 
-	gtk_widget_show_all(window);
-	gtk_main();
+	/* Background */
+	cairo_save(rcr);
+	cairo_set_source_rgb(rcr, 0.337, 0.612, 0.117);   // green
+	cairo_paint(rcr);
+	cairo_restore(rcr);
 
-	return EXIT_SUCCESS;
+	cairo_set_source_surface(rcr, sur, 0, 0);
+
+	cairo_paint(rcr);
+	cairo_destroy(rcr);
+
+	return FALSE;
 }
