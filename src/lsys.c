@@ -87,7 +87,6 @@ struct lsys_opts *get_lsys_opts(void)
 	static struct lsys_opts *p;
 
 	if (p == NULL) {
-		p = &opts;
 		opts.axiom = "F";
 
 #define SIZEOF_ARRAY(a) (sizeof(a)/sizeof(a[0]))
@@ -98,6 +97,10 @@ struct lsys_opts *get_lsys_opts(void)
 		opts.depth = 0;
 		opts.degree_step = 45;
 		opts.initial_degree = 0;
+		opts.xmax = 600;
+		opts.ymax = 600;
+
+		p = &opts;
 	}
 
 	return p;

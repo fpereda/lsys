@@ -47,6 +47,8 @@ struct lsys_opts {
 	unsigned depth;
 	long double degree_step;
 	long double initial_degree;
+	int xmax;
+	int ymax;
 };
 
 struct lsys_opts *get_lsys_opts(void);
