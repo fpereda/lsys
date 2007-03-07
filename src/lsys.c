@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-
+#include <unistd.h>
 #include <math.h>
 #include <ctype.h>
 

@@ -33,8 +33,7 @@
 #ifndef __DRAW_H
 #define __DRAW_H 1
 
-#define MARGIN 1
-
+static const unsigned MARGIN = 1;
 cairo_t *cr;
 cairo_surface_t *sur;
 int draw_rule(int rule);

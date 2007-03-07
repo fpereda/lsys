@@ -33,8 +33,6 @@
 #ifndef __LSYS_H
 #define __LSYS_H 1
 
-#include <unistd.h>
-
 struct position {
 	double x;
 	double y;
