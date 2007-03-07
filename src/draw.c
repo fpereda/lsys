@@ -39,16 +39,7 @@
 
 int draw_rule(int rule)
 {
-	static const int iter_per_context = 10000;
-	static unsigned cnt = 0;
 	static struct position pos = {0, 0, 0};
-
-	if (cnt == 0) {
-		cnt = iter_per_context;
-		cairo_save(cr);
-	}
-
-	cnt--;
 
 	position_after_rule(rule, &pos);
 
@@ -56,12 +47,6 @@ int draw_rule(int rule)
 		cairo_line_to(cr, pos.x, pos.y);
 	else if (rule == 'G' || rule == '#')
 		cairo_move_to(cr, pos.x, pos.y);
-
-	if (cnt == 0) {
-		cairo_stroke(cr);
-		cairo_restore(cr);
-		cairo_move_to(cr, pos.x, pos.y);
-	}
 
 	return rule;
 }

@@ -36,6 +36,7 @@
 #define MARGIN 1
 
 cairo_t *cr;
+cairo_surface_t *sur;
 int draw_rule(int rule);
 
 #endif

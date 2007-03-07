@@ -67,35 +67,46 @@ static gboolean handle_expose(GtkWidget *widget,
 	gint y;
 	gdk_window_get_position(widget->window, &x, &y);
 
-	cr = gdk_cairo_create(widget->window);
+	if (!sur) {
+		sur = cairo_image_surface_create(
+					CAIRO_FORMAT_A8, width, height);
 
-	cairo_rectangle(cr,	x, y, width, height);
-	cairo_scale(cr,
-			width / (max_x - min_x + (MARGIN * 2)),
-			height / (max_y - min_y + (MARGIN * 2)));
-	cairo_translate(cr,
-			ABS(min_x - MARGIN),
-			ABS(min_y - MARGIN));
-	cairo_clip(cr);
+		cr = cairo_create(sur);
 
-	cairo_set_line_width(cr, (max_x - min_x) * 0.001);
+		cairo_rectangle(cr, x, y, width, height);
+		cairo_scale(cr,
+				width / (max_x - min_x + (MARGIN * 2)),
+				height / (max_y - min_y + (MARGIN * 2)));
+		cairo_translate(cr,
+				ABS(min_x - MARGIN),
+				ABS(min_y - MARGIN));
+		cairo_clip(cr);
+
+		cairo_set_line_width(cr, (max_x - min_x) * 0.001);
+
+		/* Paint! */
+		cairo_save(cr);
+		cairo_set_source_rgb(cr, 0, 0, 0);
+		draw_rule('#');
+		compute_figure(opts->axiom, opts->depth, draw_rule);
+		cairo_stroke(cr);
+		cairo_restore(cr);
+
+		cairo_destroy(cr);
+	}
+
+	cairo_t *rcr = gdk_cairo_create(widget->window);
 
 	/* Background */
-	cairo_save(cr);
-	cairo_set_source_rgba(cr, 0.337, 0.612, 0.117, 0.9);   // green
-	cairo_paint(cr);
-	cairo_stroke(cr);
-	cairo_restore(cr);
+	cairo_save(rcr);
+	cairo_set_source_rgb(rcr, 0.337, 0.612, 0.117);   // green
+	cairo_paint(rcr);
+	cairo_restore(rcr);
 
-	/* Paint! */
-	cairo_save(cr);
-	cairo_set_source_rgba(cr, 0, 0, 0, 1);
-	draw_rule('#');
-	compute_figure(opts->axiom, opts->depth, draw_rule);
-	cairo_stroke(cr);
-	cairo_restore(cr);
+	cairo_set_source_surface(rcr, sur, 0, 0);
 
-	cairo_destroy(cr);
+	cairo_paint(rcr);
+	cairo_destroy(rcr);
 
 	return FALSE;
 }
