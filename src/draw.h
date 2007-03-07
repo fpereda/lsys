@@ -34,9 +34,8 @@
 #define __DRAW_H 1
 
 static const unsigned MARGIN = 1;
-cairo_t *cr;
-cairo_surface_t *sur;
 int draw_rule(int rule);
-void draw_size(double *width, double *height);
+double draw_size(double *width, double *height);
+cairo_surface_t *draw_fractal(void);
 
 #endif

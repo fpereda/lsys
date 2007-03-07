@@ -34,50 +34,12 @@
 #include <cairo.h>
 
 #include "gui.h"
-#include "lsys.h"
 #include "draw.h"
 
 gboolean handle_expose(GtkWidget *widget,
 		GdkEventExpose *event, gpointer data)
 {
-	if (!sur) {
-		struct lsys_opts *opts = get_lsys_opts();
-		const struct lsys_limits *lims = get_lsys_limits();
-
-		double max_x = lims->max_x;
-		double max_y = lims->max_y;
-		double min_x = lims->min_x;
-		double min_y = lims->min_y;
-
-		gint width;
-		gint height;
-		gdk_drawable_get_size(widget->window, &width, &height);
-
-
-		sur = cairo_image_surface_create(
-					CAIRO_FORMAT_A8, width, height);
-
-		cr = cairo_create(sur);
-
-		cairo_scale(cr,
-				width / (max_x - min_x + (MARGIN * 2)),
-				height / (max_y - min_y + (MARGIN * 2)));
-		cairo_translate(cr,
-				ABS(min_x - MARGIN),
-				ABS(min_y - MARGIN));
-
-		cairo_set_line_width(cr, (max_x - min_x) * 0.001);
-
-		/* Paint! */
-		cairo_save(cr);
-		cairo_set_source_rgb(cr, 0, 0, 0);
-		draw_rule('#');
-		compute_figure(opts->axiom, opts->depth, draw_rule);
-		cairo_stroke(cr);
-		cairo_restore(cr);
-
-		cairo_destroy(cr);
-	}
+	cairo_surface_t *sur = draw_fractal();
 
 	cairo_t *rcr = gdk_cairo_create(widget->window);
 

@@ -49,8 +49,6 @@ int main(int argc, char *argv[])
 	opts->rules['Y'] = "+FX--FY+";
 	opts->rules['X'] = "-FX++FY-";
 
-	cr = NULL;
-
 	GtkWidget *window;
 	GtkWidget *drawing_area;
 	GtkWidget *lyout_top;

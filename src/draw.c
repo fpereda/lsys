@@ -35,6 +35,8 @@
 #include "draw.h"
 #include "lsys.h"
 
+static cairo_t *cr;
+
 int draw_rule(int rule)
 {
 	static struct position pos = {0, 0, 0};
@@ -49,7 +51,7 @@ int draw_rule(int rule)
 	return rule;
 }
 
-void draw_size(double *width, double *height)
+double draw_size(double *width, double *height)
 {
 	struct lsys_opts *o = get_lsys_opts();
 	const struct lsys_limits *l = get_lsys_limits();
@@ -62,7 +64,49 @@ void draw_size(double *width, double *height)
 	double max = MAX(area_width, area_height);
 
 	if (width)
-		*width = area_width / max * o->xmax;
+		*width = o->xmax * area_width / max;
 	if (height)
-		*height = area_height / max * o->ymax;
+		*height = o->ymax * area_height / max;
+	return max;
+}
+
+cairo_surface_t *draw_fractal(void)
+{
+	static cairo_surface_t *surface = 0;
+
+	if (surface)
+		return surface;
+
+	struct lsys_opts *o = get_lsys_opts();
+	const struct lsys_limits *l = get_lsys_limits();
+
+	double width;
+	double height;
+	double max = draw_size(&width, &height);
+
+	surface = cairo_image_surface_create(CAIRO_FORMAT_A8, width, height);
+
+	cr = cairo_create(surface);
+
+	cairo_scale(cr, o->xmax / max, o->ymax / max);
+
+#define ABS(a) (((a) < 0) ? -(a) : (a))
+
+	cairo_translate(cr,
+			ABS(l->min_x - MARGIN),
+			ABS(l->min_y - MARGIN));
+
+	cairo_set_line_width(cr, (l->max_x - l->min_x) * 0.001);
+
+	/* Paint! */
+	cairo_save(cr);
+	cairo_set_source_rgb(cr, 0, 0, 0);
+	draw_rule('#');
+	compute_figure(o->axiom, o->depth, draw_rule);
+	cairo_stroke(cr);
+	cairo_restore(cr);
+
+	cairo_destroy(cr);
+
+	return surface;
 }
