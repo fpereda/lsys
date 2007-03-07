@@ -60,13 +60,18 @@ double draw_size(double *width, double *height)
 	double area_height = l->max_y - l->min_y + (2 * MARGIN);
 
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
 
 	double max = MAX(area_width, area_height);
 
+	double factor = MIN((double)o->xmax / (area_width / max),
+			(double)o->ymax / (area_height / max));
 	if (width)
-		*width = o->xmax * area_width / max;
+		*width = (area_width / max)
+			* factor;
 	if (height)
-		*height = o->ymax * area_height / max;
+		*height = (area_height / max)
+			* factor;
 	return max;
 }
 
@@ -88,7 +93,10 @@ cairo_surface_t *draw_fractal(void)
 
 	cr = cairo_create(surface);
 
-	cairo_scale(cr, o->xmax / max, o->ymax / max);
+	double area_width = l->max_x - l->min_x + (2 * MARGIN);
+	double area_height = l->max_y - l->min_y + (2 * MARGIN);
+
+	cairo_scale(cr, width / area_width, height / area_height);
 
 #define ABS(a) (((a) < 0) ? -(a) : (a))
 
