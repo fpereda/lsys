@@ -137,21 +137,22 @@ int main(int argc, char *argv[])
 
 	/* Set up window */
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW (window), "lsys");
+	gtk_window_set_title(GTK_WINDOW(window), "lsys");
 	
 	double max = MAX(max_x - min_x + (MARGIN * 2),
 			max_y - min_y + (MARGIN * 2));
-	gtk_window_set_default_size(GTK_WINDOW (window),
+	gtk_widget_set_size_request(GTK_WINDOW(window),
 			(max_x - min_x + (MARGIN * 2)) / max * 600,
 			(max_y - min_y + (MARGIN * 2)) / max * 600);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
 	g_signal_connect(window, "destroy",
-			G_CALLBACK (gtk_main_quit), NULL);
+			G_CALLBACK(gtk_main_quit), NULL);
 
 	/* Set drawing area */
 	drawing_area = gtk_drawing_area_new();
-	g_signal_connect (drawing_area, "expose-event",
-			G_CALLBACK (handle_expose), NULL);
+	g_signal_connect(drawing_area, "expose-event",
+			G_CALLBACK(handle_expose), NULL);
 
 	/* Set UI */
 	/* ...    */
@@ -159,9 +160,9 @@ int main(int argc, char *argv[])
 	/* Layout */
 	lyout_top = gtk_vbox_new(FALSE,5);
 	/*menu_bar = gtk_menu_bar_new();
-	  gtk_container_add(GTK_CONTAINER (lyout_top), menu_bar);*/
-	gtk_container_add(GTK_CONTAINER (lyout_top), drawing_area);
-	gtk_container_add(GTK_CONTAINER (window), lyout_top);
+	  gtk_container_add(GTK_CONTAINER(lyout_top), menu_bar);*/
+	gtk_container_add(GTK_CONTAINER(lyout_top), drawing_area);
+	gtk_container_add(GTK_CONTAINER(window), lyout_top);
 
 	gtk_widget_show_all(window);
 	gtk_main();
