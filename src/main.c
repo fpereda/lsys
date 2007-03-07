@@ -116,8 +116,6 @@ int main(int argc, char *argv[])
 
 	cr = NULL;
 
-	compute_figure(opts->axiom, opts->depth, calcule_limits);
-
 	struct lsys_limits *lims = get_lsys_limits();
 	double max_x = lims->max_x;
 	double max_y = lims->max_y;
