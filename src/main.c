@@ -53,24 +53,18 @@ static gboolean handle_expose(GtkWidget *widget,
 	gint height;
 	gdk_drawable_get_size(widget->window, &width, &height);
 
-	gint x;
-	gint y;
-	gdk_window_get_position(widget->window, &x, &y);
-
 	if (!sur) {
 		sur = cairo_image_surface_create(
 					CAIRO_FORMAT_A8, width, height);
 
 		cr = cairo_create(sur);
 
-		cairo_rectangle(cr, x, y, width, height);
 		cairo_scale(cr,
 				width / (max_x - min_x + (MARGIN * 2)),
 				height / (max_y - min_y + (MARGIN * 2)));
 		cairo_translate(cr,
 				ABS(min_x - MARGIN),
 				ABS(min_y - MARGIN));
-		cairo_clip(cr);
 
 		cairo_set_line_width(cr, (max_x - min_x) * 0.001);
 
