@@ -127,7 +127,7 @@ struct lsys_opts *get_lsys_opts(void)
 			opts.rules[i] = 0;
 
 		opts.depth = 0;
-		opts.degree_step = 45;
+		opts.degree_step = M_PI / 2;
 		opts.initial_degree = 0;
 		opts.xmax = 600;
 		opts.ymax = 600;

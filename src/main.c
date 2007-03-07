@@ -106,9 +106,7 @@ int main(int argc, char *argv[])
 	struct lsys_opts *opts = get_lsys_opts();
 	opts->axiom = "FX";
 	opts->depth = 16;
-	opts->degree_step = 45;
-
-	opts->degree_step *= M_PI / 180;
+	opts->degree_step = M_PI / 4;
 
 	opts->rules['F'] = "";
 	opts->rules['Y'] = "+FX--FY+";
