@@ -141,10 +141,10 @@ int main(int argc, char *argv[])
 	
 	double max = MAX(max_x - min_x + (MARGIN * 2),
 			max_y - min_y + (MARGIN * 2));
-	gtk_widget_set_size_request(GTK_WINDOW(window),
+	gtk_widget_set_size_request(window,
 			(max_x - min_x + (MARGIN * 2)) / max * opts->xmax,
 			(max_y - min_y + (MARGIN * 2)) / max * opts->ymax);
-	gtk_window_set_resizable(window, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
 	g_signal_connect(window, "destroy",
 			G_CALLBACK(gtk_main_quit), NULL);
