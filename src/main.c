@@ -37,27 +37,18 @@
 #include "lsys.h"
 #include "draw.h"
 
-double max_x, max_y, min_x, min_y;
-
-int calcule_limits(int rule)
-{
-	static struct position pos = {0, 0, 0};
-
-	position_after_rule(rule, &pos);
-
-	max_x = MAX(max_x, pos.x);
-	max_y = MAX(max_y, pos.y);
-	min_x = MIN(min_x, pos.x);
-	min_y = MIN(min_y, pos.y);
-
-	return rule;
-}
-
 static gboolean handle_expose(GtkWidget *widget,
 		GdkEventExpose *event,
 		gpointer data)
 {
 	struct lsys_opts *opts = get_lsys_opts();
+	struct lsys_limits *lims = get_lsys_limits();
+
+	double max_x = lims->max_x;
+	double max_y = lims->max_y;
+	double min_x = lims->min_x;
+	double min_y = lims->min_y;
+
 	gint width;
 	gint height;
 	gdk_drawable_get_size(widget->window, &width, &height);
@@ -126,6 +117,12 @@ int main(int argc, char *argv[])
 	cr = NULL;
 
 	compute_figure(opts->axiom, opts->depth, calcule_limits);
+
+	struct lsys_limits *lims = get_lsys_limits();
+	double max_x = lims->max_x;
+	double max_y = lims->max_y;
+	double min_x = lims->min_x;
+	double min_y = lims->min_y;
 
 	GtkWidget *window;
 	GtkWidget *drawing_area;

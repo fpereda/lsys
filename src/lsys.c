@@ -81,6 +81,40 @@ void position_after_rule(int rule, struct position *pos)
 	}
 }
 
+int calcule_limits(int rule)
+{
+	static struct position pos = {0, 0, 0};
+
+	position_after_rule(rule, &pos);
+
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+
+	struct lsys_limits *lim = get_lsys_limits();
+	lim->max_x = MAX(lim->max_x, pos.x);
+	lim->max_y = MAX(lim->max_y, pos.y);
+	lim->min_x = MIN(lim->min_x, pos.x);
+	lim->min_y = MIN(lim->min_y, pos.y);
+
+	return rule;
+}
+
+struct lsys_limits *get_lsys_limits(void)
+{
+	static struct lsys_limits lims;
+	static struct lsys_limits *p;
+
+	if (p == NULL) {
+		lims.max_x = 0;
+		lims.max_y = 0;
+		lims.min_x = 0;
+		lims.min_y = 0;
+		p = &lims;
+	}
+
+	return p;
+}
+
 struct lsys_opts *get_lsys_opts(void)
 {
 	static struct lsys_opts opts;

@@ -33,6 +33,13 @@
 #ifndef __LSYS_H
 #define __LSYS_H 1
 
+struct lsys_limits {
+	double max_x;
+	double max_y;
+	double min_x;
+	double min_y;
+};
+
 struct position {
 	double x;
 	double y;
@@ -50,7 +57,9 @@ struct lsys_opts {
 };
 
 struct lsys_opts *get_lsys_opts(void);
+struct lsys_limits *get_lsys_limits(void);
 void compute_figure(const char *current, unsigned depth, int (*process)(int));
 void position_after_rule(int rule, struct position *pos);
+int calcule_limits(int rule);
 
 #endif
