@@ -37,6 +37,7 @@
 #include "lsys.h"
 
 static struct lsys_limits lims;
+const static struct lsys_limits *limsptr;
 
 static int calculate_limits(int rule)
 {
@@ -100,17 +101,20 @@ void position_after_rule(int rule, struct position *pos)
 	}
 }
 
-struct lsys_limits *get_lsys_limits(void)
+void invalidate_lsys_limits(void)
 {
-	static struct lsys_limits *p;
+	limsptr = NULL;
+}
 
-	if (p == NULL) {
+const struct lsys_limits *get_lsys_limits(void)
+{
+	if (limsptr == NULL) {
 		struct lsys_opts *o = get_lsys_opts();
 		compute_figure(o->axiom, o->depth, calculate_limits);
-		p = &lims;
+		limsptr = &lims;
 	}
 
-	return p;
+	return limsptr;
 }
 
 struct lsys_opts *get_lsys_opts(void)

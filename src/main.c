@@ -42,7 +42,7 @@ static gboolean handle_expose(GtkWidget *widget,
 		gpointer data)
 {
 	struct lsys_opts *opts = get_lsys_opts();
-	struct lsys_limits *lims = get_lsys_limits();
+	const struct lsys_limits *lims = get_lsys_limits();
 
 	double max_x = lims->max_x;
 	double max_y = lims->max_y;
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
 
 	cr = NULL;
 
-	struct lsys_limits *lims = get_lsys_limits();
+	const struct lsys_limits *lims = get_lsys_limits();
 	double max_x = lims->max_x;
 	double max_y = lims->max_y;
 	double min_x = lims->min_x;

@@ -57,7 +57,8 @@ struct lsys_opts {
 };
 
 struct lsys_opts *get_lsys_opts(void);
-struct lsys_limits *get_lsys_limits(void);
+const struct lsys_limits *get_lsys_limits(void);
+void invalidate_lsys_limits(void);
 void compute_figure(const char *current, unsigned depth, int (*process)(int));
 void position_after_rule(int rule, struct position *pos);
 
