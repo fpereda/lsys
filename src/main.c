@@ -41,19 +41,20 @@ static gboolean handle_expose(GtkWidget *widget,
 		GdkEventExpose *event,
 		gpointer data)
 {
-	struct lsys_opts *opts = get_lsys_opts();
-	const struct lsys_limits *lims = get_lsys_limits();
-
-	double max_x = lims->max_x;
-	double max_y = lims->max_y;
-	double min_x = lims->min_x;
-	double min_y = lims->min_y;
-
-	gint width;
-	gint height;
-	gdk_drawable_get_size(widget->window, &width, &height);
-
 	if (!sur) {
+		struct lsys_opts *opts = get_lsys_opts();
+		const struct lsys_limits *lims = get_lsys_limits();
+
+		double max_x = lims->max_x;
+		double max_y = lims->max_y;
+		double min_x = lims->min_x;
+		double min_y = lims->min_y;
+
+		gint width;
+		gint height;
+		gdk_drawable_get_size(widget->window, &width, &height);
+
+
 		sur = cairo_image_surface_create(
 					CAIRO_FORMAT_A8, width, height);
 
@@ -108,12 +109,6 @@ int main(int argc, char *argv[])
 
 	cr = NULL;
 
-	const struct lsys_limits *lims = get_lsys_limits();
-	double max_x = lims->max_x;
-	double max_y = lims->max_y;
-	double min_x = lims->min_x;
-	double min_y = lims->min_y;
-
 	GtkWidget *window;
 	GtkWidget *drawing_area;
 	// GtkWidget *menu_bar;
@@ -124,12 +119,11 @@ int main(int argc, char *argv[])
 	/* Set up window */
 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(window), "lsys");
-	
-	double max = MAX(max_x - min_x + (MARGIN * 2),
-			max_y - min_y + (MARGIN * 2));
-	gtk_widget_set_size_request(window,
-			(max_x - min_x + (MARGIN * 2)) / max * opts->xmax,
-			(max_y - min_y + (MARGIN * 2)) / max * opts->ymax);
+
+	double width;
+	double height;
+	draw_size(&width, &height);
+	gtk_widget_set_size_request(window, width, height);
 	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
 	g_signal_connect(window, "destroy",

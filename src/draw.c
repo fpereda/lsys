@@ -48,3 +48,21 @@ int draw_rule(int rule)
 
 	return rule;
 }
+
+void draw_size(double *width, double *height)
+{
+	struct lsys_opts *o = get_lsys_opts();
+	const struct lsys_limits *l = get_lsys_limits();
+
+	double area_width = l->max_x - l->min_x + (2 * MARGIN);
+	double area_height = l->max_y - l->min_y + (2 * MARGIN);
+
+#define MAX(a, b) (((a) > (b)) ? (a) : (b))
+
+	double max = MAX(area_width, area_height);
+
+	if (width)
+		*width = area_width / max * o->xmax;
+	if (height)
+		*height = area_height / max * o->ymax;
+}

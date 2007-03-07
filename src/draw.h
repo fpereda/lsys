@@ -37,5 +37,6 @@ static const unsigned MARGIN = 1;
 cairo_t *cr;
 cairo_surface_t *sur;
 int draw_rule(int rule);
+void draw_size(double *width, double *height);
 
 #endif
