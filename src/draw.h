@@ -35,7 +35,7 @@
 
 static const unsigned MARGIN = 1;
 int draw_rule(int rule);
-double draw_size(double *width, double *height);
+void draw_size(double *width, double *height);
 cairo_surface_t *draw_fractal(void);
 
 #endif
