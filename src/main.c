@@ -60,10 +60,10 @@ int main(int argc, char *argv[])
 	opts->rules['F'] = "F+F--F+F";
 #endif
 
-#if 0
+#if 1
 	/* Peano Curve */
 	opts->axiom = "F";
-	opts->depth = 4;
+	opts->depth = 2;
 	opts->degree_step = M_PI_2;
 	opts->rules['F'] = "F+F-F-F-F+F+F+F-F";
 #endif
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 	opts->rules['F'] = "F[-F][+F]";
 #endif
 
-#if 1
+#if 0
 	/* NFC but cool */
 	opts->axiom = "F++F++F";
 	opts->depth = 3;
