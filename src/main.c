@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
 	opts->rules['F'] = "F+F--F+F";
 #endif
 
-#if 1
+#if 0
 	/* Peano Curve */
 	opts->axiom = "F";
 	opts->depth = 2;
@@ -68,12 +68,12 @@ int main(int argc, char *argv[])
 	opts->rules['F'] = "F+F-F-F-F+F+F+F-F";
 #endif
 
-#if 0
+#if 1
 	/* Silly bush */
 	opts->axiom = "F";
-	opts->depth = 4;
+	opts->depth = 3;
 	opts->initial_degree = -M_PI_2;
-	opts->degree_step = M_PI / 6;
+	opts->degree_step = M_PI / 7;
 	opts->rules['F'] = "F[-F][+F]";
 #endif
 

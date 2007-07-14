@@ -37,7 +37,7 @@
 
 static cairo_t *cr;
 
-int draw_rule(int rule)
+int draw_rule(int rule, unsigned short curdepth)
 {
 	static struct position pos = {0, 0, 0};
 
@@ -104,7 +104,7 @@ cairo_surface_t *draw_fractal(void)
 	/* Paint! */
 	cairo_save(cr);
 	cairo_set_source_rgb(cr, 0, 0, 0);
-	draw_rule('#');
+	draw_rule('#', 0);
 	compute_figure(o->axiom, o->depth, draw_rule);
 	cairo_stroke(cr);
 	cairo_restore(cr);

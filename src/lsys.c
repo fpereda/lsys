@@ -56,7 +56,7 @@ static stack *get_saved_pos(void)
 
 static struct position limits_pos = {0, 0, 0};
 
-static int calculate_limits(int rule)
+static int calculate_limits(int rule, unsigned short curdepth)
 {
 	position_after_rule(rule, &limits_pos);
 
@@ -71,25 +71,37 @@ static int calculate_limits(int rule)
 	return rule;
 }
 
-void compute_figure(const char *current, unsigned depth, int (*process)(int))
+static void do_compute_figure(
+		const char *current,
+		unsigned depth,
+		unsigned curdepth,
+		int (*process)(int, unsigned short))
 {
 	const char *p;
 	struct lsys_opts *opts = get_lsys_opts();
 
 	if (depth <= 0) {
 		for (p = current; *p ; p++)
-			process(*p);
+			process(*p, curdepth);
 		return;
 	}
 
 	for (p = current; *p ; p++) {
 		int c = toupper(*p);
-		if (isalpha(c) && opts->rules[c]) {
-			compute_figure(opts->rules[c], depth - 1, process);
-		} else {
-			process(c);
-		}
+		if (isalpha(c) && opts->rules[c])
+			do_compute_figure(opts->rules[c],
+					depth - 1, curdepth + 1, process);
+		else
+			process(c, curdepth);
 	}
+}
+
+void compute_figure(
+		const char *current,
+		unsigned depth,
+		int (*process)(int, unsigned short))
+{
+	do_compute_figure(current, depth, 0, process);
 }
 
 void position_after_rule(int rule, struct position *pos)
