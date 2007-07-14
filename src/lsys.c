@@ -109,8 +109,7 @@ void position_after_rule(int rule, struct position *pos)
 	struct lsys_opts *opts = get_lsys_opts();
 	stack *saved_pos = get_saved_pos();
 	struct position *npos;
-	switch (rule)
-	{
+	switch (rule) {
 		case '#':
 			pos->x = 0;
 			pos->y = 0;

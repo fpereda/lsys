@@ -88,7 +88,7 @@ cairo_surface_t *draw_fractal(void)
 
 	cr = cairo_create(surface);
 
-	double area_width = l->max_x - l->min_x + (2 * MARGIN);
+	double area_width  = l->max_x - l->min_x + (2 * MARGIN);
 	double area_height = l->max_y - l->min_y + (2 * MARGIN);
 
 	cairo_scale(cr, width / area_width, height / area_height);
