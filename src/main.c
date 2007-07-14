@@ -41,6 +41,8 @@
 int main(int argc, char *argv[])
 {
 	struct lsys_opts *opts = get_lsys_opts();
+
+#if 0
 	opts->axiom = "FX";
 	opts->depth = 16;
 	opts->degree_step = M_PI / 4;
@@ -48,6 +50,48 @@ int main(int argc, char *argv[])
 	opts->rules['F'] = "";
 	opts->rules['Y'] = "+FX--FY+";
 	opts->rules['X'] = "-FX++FY-";
+#endif
+
+#if 0
+	/* Koch Curve */
+	opts->axiom = "F";
+	opts->depth = 5;
+	opts->degree_step = M_PI / 4;
+	opts->rules['F'] = "F+F--F+F";
+#endif
+
+#if 0
+	/* Peano Curve */
+	opts->axiom = "F";
+	opts->depth = 4;
+	opts->degree_step = M_PI_2;
+	opts->rules['F'] = "F+F-F-F-F+F+F+F-F";
+#endif
+
+#if 0
+	/* Silly bush */
+	opts->axiom = "F";
+	opts->depth = 4;
+	opts->initial_degree = -M_PI_2;
+	opts->degree_step = M_PI / 6;
+	opts->rules['F'] = "F[-F][+F]";
+#endif
+
+#if 1
+	/* NFC but cool */
+	opts->axiom = "F++F++F";
+	opts->depth = 3;
+	opts->degree_step = M_PI / 3;
+	opts->rules['F'] = "F+F--F+F";
+#endif
+
+#if 0
+	/* Koch island */
+	opts->axiom = "F++F++F";
+	opts->depth = 8;
+	opts->degree_step = M_PI / 3;
+	opts->rules['F'] = "F-F++F-F";
+#endif
 
 	GtkWidget *window;
 	GtkWidget *drawing_area;
