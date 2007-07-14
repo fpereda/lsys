@@ -33,25 +33,40 @@
 #include <unistd.h>
 #include <math.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "lsys.h"
+#include "stack.h"
 
 static struct lsys_limits lims;
 const static struct lsys_limits *limsptr;
 
+static stack *get_saved_pos(void)
+{
+	static stack st;
+	static stack *s;
+
+	if (s == NULL) {
+		s = &st;
+		stack_init(s, NULL);
+	}
+
+	return s;
+}
+
+static struct position limits_pos = {0, 0, 0};
+
 static int calculate_limits(int rule)
 {
-	static struct position pos = {0, 0, 0};
-
-	position_after_rule(rule, &pos);
+	position_after_rule(rule, &limits_pos);
 
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
 
-	lims.max_x = MAX(lims.max_x, pos.x);
-	lims.max_y = MAX(lims.max_y, pos.y);
-	lims.min_x = MIN(lims.min_x, pos.x);
-	lims.min_y = MIN(lims.min_y, pos.y);
+	lims.max_x = MAX(lims.max_x, limits_pos.x);
+	lims.max_y = MAX(lims.max_y, limits_pos.y);
+	lims.min_x = MIN(lims.min_x, limits_pos.x);
+	lims.min_y = MIN(lims.min_y, limits_pos.y);
 
 	return rule;
 }
@@ -80,12 +95,14 @@ void compute_figure(const char *current, unsigned depth, int (*process)(int))
 void position_after_rule(int rule, struct position *pos)
 {
 	struct lsys_opts *opts = get_lsys_opts();
+	stack *saved_pos = get_saved_pos();
+	struct position *npos;
 	switch (rule)
 	{
 		case '#':
 			pos->x = 0;
 			pos->y = 0;
-			pos->degree = 0;
+			pos->degree = opts->initial_degree;
 			break;
 		case 'G':
 		case 'F':
@@ -97,6 +114,16 @@ void position_after_rule(int rule, struct position *pos)
 			break;
 		case '-':
 			pos->degree += opts->degree_step;
+			break;
+		case '[':
+			npos = malloc(sizeof(*npos));
+			memcpy(npos, pos, sizeof(*npos));
+			stack_push(saved_pos, npos);
+			break;
+		case ']':
+			npos = stack_pop(saved_pos);
+			memcpy(pos, npos, sizeof(*npos));
+			free(npos);
 			break;
 	}
 }
@@ -110,6 +137,7 @@ const struct lsys_limits *get_lsys_limits(void)
 {
 	if (limsptr == NULL) {
 		struct lsys_opts *o = get_lsys_opts();
+		limits_pos.degree = o->initial_degree;
 		compute_figure(o->axiom, o->depth, calculate_limits);
 		limsptr = &lims;
 	}

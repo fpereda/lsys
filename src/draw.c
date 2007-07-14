@@ -45,7 +45,7 @@ int draw_rule(int rule)
 
 	if (rule == 'F')
 		cairo_line_to(cr, pos.x, pos.y);
-	else if (rule == 'G' || rule == '#')
+	else if (rule == 'G' || rule == '#' || rule == ']')
 		cairo_move_to(cr, pos.x, pos.y);
 
 	return rule;
