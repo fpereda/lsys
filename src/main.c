@@ -95,7 +95,6 @@ int main(int argc, char *argv[])
 
 	GtkWidget *window;
 	GtkWidget *drawing_area;
-	GtkWidget *lyout_top;
 
 	gtk_init(&argc, &argv);
 
@@ -117,13 +116,7 @@ int main(int argc, char *argv[])
 	g_signal_connect(drawing_area, "expose-event",
 			G_CALLBACK(handle_expose), NULL);
 
-	/* Set UI */
-	/* ...    */
-
-	/* Layout */
-	lyout_top = gtk_vbox_new(FALSE,5);
-	gtk_container_add(GTK_CONTAINER(lyout_top), drawing_area);
-	gtk_container_add(GTK_CONTAINER(window), lyout_top);
+	gtk_container_add(GTK_CONTAINER(window), drawing_area);
 
 	gtk_widget_show_all(window);
 	gtk_main();
