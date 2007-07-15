@@ -32,8 +32,9 @@
 
 #include <cairo.h>
 
+#include <lsys/lsys.h>
+
 #include "draw.h"
-#include "lsys.h"
 
 static cairo_t *cr;
 

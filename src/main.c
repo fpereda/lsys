@@ -34,7 +34,8 @@
 #include <gtk/gtk.h>
 #include <math.h>
 
-#include "lsys.h"
+#include <lsys/lsys.h>
+
 #include "draw.h"
 #include "gui.h"
 

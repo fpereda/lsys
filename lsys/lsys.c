@@ -35,8 +35,9 @@
 #include <ctype.h>
 #include <string.h>
 
+#include <lsysutil/stack.h>
+
 #include "lsys.h"
-#include "stack.h"
 
 static struct lsys_limits lims;
 const static struct lsys_limits *limsptr;
