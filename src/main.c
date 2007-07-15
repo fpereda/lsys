@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 {
 	struct lsys_opts *opts = get_lsys_opts();
 
-#if 0
+#if 1
 	opts->axiom = "FX";
 	opts->depth = 16;
 	opts->degree_step = M_PI / 4;
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 	opts->rules['F'] = "F+F-F-F-F+F+F+F-F";
 #endif
 
-#if 1
+#if 0
 	/* Silly bush */
 	opts->axiom = "F";
 	opts->depth = 3;
@@ -92,6 +92,34 @@ int main(int argc, char *argv[])
 	opts->depth = 8;
 	opts->degree_step = M_PI / 3;
 	opts->rules['F'] = "F-F++F-F";
+#endif
+
+#if 0
+	/* Plant 1 */
+	opts->axiom = "X";
+	opts->depth = 6;
+	opts->initial_degree = -M_PI_2;
+	opts->degree_step = 25 * M_PI / 180;
+	opts->rules['F'] = "FF";
+	opts->rules['X'] = "F-[[X]+X]+F[+FX]-X";
+#endif
+
+#if 0
+	/* Tree 1 */
+	opts->axiom = "++++F";
+	opts->depth = 5;
+	opts->degree_step = M_PI / 8;
+	opts->rules['F'] = "FF-[-F+F+F]+[+F-F-F]";
+#endif
+
+#if 1
+	/* Plant 2 */
+	opts->axiom = "X";
+	opts->depth = 9;
+	opts->initial_degree = -M_PI_2;
+	opts->degree_step = M_PI / 8;
+	opts->rules['F'] = "FF";
+	opts->rules['X'] = "F[+X]F[+X]-X";
 #endif
 
 	GtkWidget *window;
