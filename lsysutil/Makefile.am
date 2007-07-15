@@ -4,7 +4,7 @@ MAINTAINERCLEANFILES = Makefile.in
 INCLUDES = $(PACKAGE_CFLAGS)
 AM_CFLAGS = $(LSYS_CFLAGS)
 
-SUBDIRS = .
+SUBDIRS = . test
 
 lib_LIBRARIES = liblsysutil.a
 
