@@ -36,6 +36,7 @@
 #include <string.h>
 
 #include <lsysutil/stack.h>
+#include <lsysutil/xfuncs.h>
 
 #include "lsys.h"
 
@@ -128,7 +129,7 @@ void position_after_rule(int rule, struct position *pos)
 			pos->degree += opts->degree_step;
 			break;
 		case '[':
-			npos = malloc(sizeof(*npos));
+			npos = xmalloc(sizeof(*npos));
 			memcpy(npos, pos, sizeof(*npos));
 			stack_push(saved_pos, npos);
 			break;

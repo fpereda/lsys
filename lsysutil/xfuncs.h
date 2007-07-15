@@ -29,53 +29,23 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "stack.h"
-#include "xfuncs.h"
+#ifndef __XFUNCS_H
+#define __XFUNCS_H 1
 
-stack *stack_alloc_init(void (*destroy)(void *))
-{
-	stack *s = xmalloc(sizeof(*s));
-	stack_init(s, destroy);
-	return s;
-}
+#include <stdlib.h>
+#include <stdio.h>
 
-void stack_init(stack *s, void (*destroy)(void *))
+static inline void *xmalloc(size_t s)
 {
-	s->first = NULL;
-	s->size = 0;
-	s->destroy = destroy;
-}
-
-void stack_destroy(stack *s)
-{
-	stacknode *n = s->first;
-	while (n) {
-		stacknode *nn = n->next;
-		if (s->destroy)
-			s->destroy(n->data);
-		free(n);
-		n = nn;
-	}
-	free(s);
-}
-
-void stack_push(stack *s, void *d)
-{
-	stacknode *n = xmalloc(sizeof(*n));
-	n->data = d;
-	n->next = s->first;
-	s->first = n;
-	s->size++;
-}
-
-void *stack_pop(stack *s)
-{
-	if (stack_empty(s))
+	if (s == 0)
 		return NULL;
-	stacknode *n = s->first;
-	s->first = n->next;
-	s->size--;
-	void *p = n->data;
-	free(n);
-	return p;
+
+	void *p = malloc(s);
+	if (p != NULL)
+		return p;
+
+	fprintf(stderr, "Oom. Aborting.\n");
+	abort();
 }
+
+#endif
