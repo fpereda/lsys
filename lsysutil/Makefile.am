@@ -8,6 +8,7 @@ SUBDIRS = . test
 
 lib_LIBRARIES = liblsysutil.a
 
-liblsysutil_a_SOURCES = stack.c stack.h
+liblsysutil_a_SOURCES = stack.c stack.h \
+                        xfuncs.h
 
 # vim: set et:
