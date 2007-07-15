@@ -71,11 +71,12 @@ int main(int argc, char *argv[])
 
 #if 0
 	/* Silly bush */
-	opts->axiom = "F";
-	opts->depth = 3;
+	opts->axiom = "X";
+	opts->depth = 9;
 	opts->initial_degree = -M_PI_2;
 	opts->degree_step = M_PI / 7;
-	opts->rules['F'] = "F[-F][+F]";
+	opts->rules['X'] = "F[-X][+X]";
+	opts->rules['F'] = "FF";
 #endif
 
 #if 0
@@ -97,16 +98,17 @@ int main(int argc, char *argv[])
 #if 0
 	/* Plant 1 */
 	opts->axiom = "X";
-	opts->depth = 6;
+	opts->depth = 7;
 	opts->initial_degree = -M_PI_2;
 	opts->degree_step = 25 * M_PI / 180;
 	opts->rules['F'] = "FF";
-	opts->rules['X'] = "F-[[X]+X]+F[+FX]-X";
+	opts->rules['X'] = "F+[[X]-X]-F[-FX]+X";
 #endif
 
 #if 0
 	/* Tree 1 */
-	opts->axiom = "++++F";
+	opts->axiom = "F";
+	opts->initial_degree = -M_PI_2;
 	opts->depth = 5;
 	opts->degree_step = M_PI / 8;
 	opts->rules['F'] = "FF-[-F+F+F]+[+F-F-F]";
@@ -115,7 +117,7 @@ int main(int argc, char *argv[])
 #if 1
 	/* Plant 2 */
 	opts->axiom = "X";
-	opts->depth = 9;
+	opts->depth = 10;
 	opts->initial_degree = -M_PI_2;
 	opts->degree_step = M_PI / 8;
 	opts->rules['F'] = "FF";
