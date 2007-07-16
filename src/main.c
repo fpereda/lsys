@@ -45,25 +45,6 @@
 #include "gui.h"
 #include "about.h"
 
-static void __NORETURN version(void)
-{
-	printf("%s %s\n\n", PACKAGE_NAME, PACKAGE_VERSION);
-	printf("Built by %s@%s on %s\n", LSYS_BUILD_USER, LSYS_BUILD_HOST, LSYS_BUILD_DATE);
-
-	if (strlen(LSYS_GITREV) > 0)
-		printf("Git rev: %s\n", LSYS_GITREV);
-	printf("CC:      %s%s\n", LSYS_BUILD_CC,
-#if defined(__VERSION__)
-			" " __VERSION__
-#elif
-			""
-#endif
-		  );
-	printf("CFLAGS:  %s\n", LSYS_BUILD_CFLAGS);
-	printf("LDFLAGS: %s\n", LSYS_BUILD_LDFLAGS);
-	exit(EXIT_SUCCESS);
-}
-
 static int add_rule(struct lsys_opts *o, char *r)
 {
 	unsigned len = strlen(r);
@@ -125,8 +106,10 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if (o_version->specified)
-		version();
+	if (o_version->specified) {
+		printf("%s", version());
+		return EXIT_SUCCESS;
+	}
 
 	if (a_axiom.specified)
 		opts->axiom = a_axiom.data;
