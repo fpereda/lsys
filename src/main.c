@@ -43,8 +43,28 @@
 
 #include "draw.h"
 #include "gui.h"
+#include "about.h"
 
-int add_rule(struct lsys_opts *o, char *r)
+static void __NORETURN version(void)
+{
+	printf("%s %s\n\n", PACKAGE_NAME, PACKAGE_VERSION);
+	printf("Built by %s@%s on %s\n", LSYS_BUILD_USER, LSYS_BUILD_HOST, LSYS_BUILD_DATE);
+
+	if (strlen(LSYS_GITREV) > 0)
+		printf("Git rev: %s\n", LSYS_GITREV);
+	printf("CC:      %s%s\n", LSYS_BUILD_CC,
+#if defined(__VERSION__)
+			" " __VERSION__
+#elif
+			""
+#endif
+		  );
+	printf("CFLAGS:  %s\n", LSYS_BUILD_CFLAGS);
+	printf("LDFLAGS: %s\n", LSYS_BUILD_LDFLAGS);
+	exit(EXIT_SUCCESS);
+}
+
+static int add_rule(struct lsys_opts *o, char *r)
 {
 	unsigned len = strlen(r);
 	if (len < 2) {
@@ -81,10 +101,12 @@ int main(int argc, char *argv[])
 		{"initial-degree", 'i', "Initial degree of the turtle", COPME_HASARG, &a_initial_degree},
 		{"rule", 0, "Add a production rule to the l-system", COPME_HASARG, &a_rule},
 		{"help", 'h', "Display this information message", COPME_NOARG, 0},
+		{"version", 'V', "Display version information", COPME_NOARG, 0},
 		{0, 0, 0, 0, 0}
 	};
 
 	struct copme_long *o_help = copme_option_named(copts, "help");
+	struct copme_long *o_version = copme_option_named(copts, "version");
 
 	struct copme_state *cst = copme_init(copts, argc, argv);
 	while (! copme_finished(cst)) {
@@ -102,6 +124,9 @@ int main(int argc, char *argv[])
 			return EXIT_SUCCESS;
 		}
 	}
+
+	if (o_version->specified)
+		version();
 
 	if (a_axiom.specified)
 		opts->axiom = a_axiom.data;
