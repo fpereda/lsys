@@ -76,7 +76,7 @@ static int add_rule(struct lsys_opts *o, char *r)
 	return 0;
 }
 
-int main(int argc, char *argv[])
+void parse_options(int argc, char *argv[])
 {
 	struct lsys_opts *opts = get_lsys_opts();
 
@@ -111,28 +111,32 @@ int main(int argc, char *argv[])
 		if (a_rule.specified) {
 			a_rule.specified = 0;
 			if (add_rule(opts, a_rule.data) > 0)
-				return EXIT_FAILURE;
+				goto err;
 		}
 		if (copme_error(cst))
-			return EXIT_FAILURE;
+			goto err;
 		if (o_help->specified) {
 			copme_usage(cst, usage_pre, usage_post);
-			return EXIT_SUCCESS;
+			goto suc;
 		}
 	}
 
 	if (o_version->specified) {
 		printf("%s", version());
-		return EXIT_SUCCESS;
+		goto suc;
 	}
 
 	if (o_list_examples->specified) {
 		example_list();
-		return EXIT_SUCCESS;
+		goto suc;
 	}
 
 	if (a_example.specified)
-		example_set(a_example.data, opts);
+		if (example_set(a_example.data, opts) > 0) {
+			fprintf(stderr, "Example with key '%s' not found.\n",
+					a_example.data);
+			goto err;
+		}
 
 	if (a_axiom.specified)
 		opts->axiom = a_axiom.data;
@@ -143,7 +147,17 @@ int main(int argc, char *argv[])
 	if (a_initial_degree.specified)
 		opts->initial_degree = -(atoi(a_initial_degree.data) * M_PI / 180);
 
+suc:
 	free(cst);
+	exit(EXIT_SUCCESS);
+err:
+	free(cst);
+	exit(EXIT_FAILURE);
+}
+
+int main(int argc, char *argv[])
+{
+	parse_options(argc, argv);
 
 	GtkWidget *window;
 	GtkWidget *drawing_area;

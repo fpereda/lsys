@@ -36,7 +36,7 @@
 #include <lsys/lsys.h>
 
 void example_list(void);
-void example_set(char *key, struct lsys_opts *o);
+int example_set(char *key, struct lsys_opts *o);
 
 struct lsysexample {
 	char *lname;

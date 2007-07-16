@@ -72,15 +72,16 @@ void example_list(void)
 	putchar('\n');
 }
 
-void example_set(char *key, struct lsys_opts *o)
+int example_set(char *key, struct lsys_opts *o)
 {
 	struct lsysexample *e;
 	for (e = lsysexamples; e->lname; e++) {
 		if (strcmp(key, e->key) != 0)
 			continue;
 		e->do_example(o);
-		return;
+		return 0;
 	}
+	return 1;
 }
 
 void example_dragon_curve(struct lsys_opts *o)
