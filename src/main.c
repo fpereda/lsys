@@ -33,17 +33,88 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <math.h>
+#include <string.h>
+#include <ctype.h>
 
 #include <lsys/lsys.h>
+#include <lsysutil/xfuncs.h>
+
+#include <copme/copme.h>
 
 #include "draw.h"
 #include "gui.h"
+
+int add_rule(struct lsys_opts *o, char *r)
+{
+	unsigned len = strlen(r);
+	if (len < 2) {
+		fprintf(stderr, "Rule '%s' too short.\n", r);
+		return 1;
+	} else if (! isalpha(r[0])) {
+		fprintf(stderr, "Invalid left hand side: '%c'.\n", r[0]);
+		return 1;
+	} else if (r[1] != '=') {
+		fprintf(stderr, "Malformed rule '%s'.\n", r);
+		return 1;
+	}
+
+	short lhs = r[0];
+	char *rhs = xstrdup(r + 2);
+	o->rules[lhs] = rhs;
+	return 0;
+}
 
 int main(int argc, char *argv[])
 {
 	struct lsys_opts *opts = get_lsys_opts();
 
-#if 1
+	struct copme_arg a_depth = {0, 0};
+	struct copme_arg a_axiom = {0, 0};
+	struct copme_arg a_degree_step = {0, 0};
+	struct copme_arg a_initial_degree = {0, 0};
+	struct copme_arg a_rule = {0, 0};
+
+	struct copme_long copts[] = {
+		{"depth", 'd', "Generation of the l-system", COPME_HASARG, &a_depth},
+		{"axiom", 'a', "Starting point of the l-system", COPME_HASARG, &a_axiom},
+		{"degree-step", 0, "Delta. Degrees to turn in + and -", COPME_HASARG, &a_degree_step},
+		{"initial-degree", 'i', "Initial degree of the turtle", COPME_HASARG, &a_initial_degree},
+		{"rule", 0, "Add a production rule to the l-system", COPME_HASARG, &a_rule},
+		{"help", 'h', "Display this information message", COPME_NOARG, 0},
+		{0, 0, 0, 0, 0}
+	};
+
+	struct copme_long *o_help = copme_option_named(copts, "help");
+
+	struct copme_state *cst = copme_init(copts, argc, argv);
+	while (! copme_finished(cst)) {
+		copme_next(cst);
+
+		if (a_rule.specified) {
+			a_rule.specified = 0;
+			if (add_rule(opts, a_rule.data) > 0)
+				return EXIT_FAILURE;
+		}
+		if (copme_error(cst))
+			return EXIT_FAILURE;
+		if (o_help->specified) {
+			copme_usage(cst);
+			return EXIT_SUCCESS;
+		}
+	}
+
+	if (a_axiom.specified)
+		opts->axiom = a_axiom.data;
+	if (a_depth.specified)
+		opts->depth = atoi(a_depth.data);
+	if (a_degree_step.specified)
+		opts->degree_step = atoi(a_degree_step.data) * M_PI / 180;
+	if (a_initial_degree.specified)
+		opts->initial_degree = -(atoi(a_initial_degree.data) * M_PI / 180);
+
+	free(cst);
+
+#if 0
 	opts->axiom = "FX";
 	opts->depth = 16;
 	opts->degree_step = M_PI / 4;
@@ -114,7 +185,7 @@ int main(int argc, char *argv[])
 	opts->rules['F'] = "FF-[-F+F+F]+[+F-F-F]";
 #endif
 
-#if 1
+#if 0
 	/* Plant 2 */
 	opts->axiom = "X";
 	opts->depth = 10;

@@ -15,6 +15,7 @@ lsys_SOURCES = draw.c  draw.h  \
 lsys_LDFLAGS =
 lsys_LDADD = $(PACKAGE_LIBS) \
              $(top_builddir)/lsys/liblsys.a \
-             $(top_builddir)/lsysutil/liblsysutil.a
+             $(top_builddir)/lsysutil/liblsysutil.a \
+             $(top_builddir)/copme/libcopme.a
 
 # vim: set et:
