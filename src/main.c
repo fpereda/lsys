@@ -147,6 +147,8 @@ void parse_options(int argc, char *argv[])
 	if (a_initial_degree.specified)
 		opts->initial_degree = -(atoi(a_initial_degree.data) * M_PI / 180);
 
+	return;
+
 suc:
 	free(cst);
 	exit(EXIT_SUCCESS);
