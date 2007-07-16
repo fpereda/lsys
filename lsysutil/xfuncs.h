@@ -34,6 +34,15 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+
+#define __NORETURN __attribute__((noreturn))
+
+static __NORETURN void oom(void)
+{
+	fprintf(stderr, "Oom. Aborting.\n");
+	abort();
+}
 
 static inline void *xmalloc(size_t s)
 {
@@ -44,8 +53,16 @@ static inline void *xmalloc(size_t s)
 	if (p != NULL)
 		return p;
 
-	fprintf(stderr, "Oom. Aborting.\n");
-	abort();
+	oom();
+}
+
+static inline char *xstrdup(const char *c)
+{
+	char *p = strdup(c);
+	if (p != NULL)
+		return p;
+
+	oom();
 }
 
 #endif
