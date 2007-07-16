@@ -87,12 +87,12 @@ static void parse_options(int argc, char *argv[])
 {
 	struct lsys_opts *opts = get_lsys_opts();
 
-	struct copme_arg a_depth = {0, 0};
-	struct copme_arg a_axiom = {0, 0};
-	struct copme_arg a_degree_step = {0, 0};
-	struct copme_arg a_initial_degree = {0, 0};
-	struct copme_arg a_rule = {0, 0};
-	struct copme_arg a_example = {0, 0};
+	struct copme_arg a_depth;
+	struct copme_arg a_axiom;
+	struct copme_arg a_degree_step;
+	struct copme_arg a_initial_degree;
+	struct copme_arg a_rule;
+	struct copme_arg a_example;
 
 	struct copme_long copts[] = {
 		{"depth", 'd', "Generation of the l-system", COPME_HASARG, &a_depth},
