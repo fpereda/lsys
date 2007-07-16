@@ -50,14 +50,14 @@ void example_tree1(struct lsys_opts *o);
 
 struct lsysexample lsysexamples[] = {
 	{"Dragon Curve", "dragon", "A filling curve fractal", example_dragon_curve},
-	{"Koch Curve", "koch-curve", 0, example_koch_curve},
-	{"Peano Curve", "peano", 0, example_peano_curve},
-	{"anti-Koch Island", "akoch-island", 0, example_antikoch_island},
-	{"Koch Island", "koch-island", 0, example_koch_island},
-	{"Plant 1", "plant1", 0, example_plant1},
-	{"Plant 2", "plant2", 0, example_plant2},
-	{"Plant 3", "plant3", 0, example_plant3},
-	{"Tree 1", "tree1", 0, example_tree1},
+	{"Koch Curve", "koch-curve", "Interesting mathematical monster", example_koch_curve},
+	{"Peano Curve", "peano", "Yet another filling curve fractal", example_peano_curve},
+	{"anti-Koch Island", "akoch-island", "Koch Island with oposite angles", example_antikoch_island},
+	{"Koch Island", "koch-island", "Three Koch curves forming a triangle", example_koch_island},
+	{"Plant 1", "plant1", "A plant-like lsystem", example_plant1},
+	{"Plant 2", "plant2", "A plant-like lsystem", example_plant2},
+	{"Plant 3", "plant3", "A plant-like lsystem", example_plant3},
+	{"Tree 1", "tree1", "A tree/bush-like lsystem", example_tree1},
 	{0, 0, 0, 0}
 };
 
