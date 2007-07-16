@@ -195,6 +195,16 @@ int main(int argc, char *argv[])
 	opts->rules['X'] = "F[+X]F[+X]-X";
 #endif
 
+#if 0
+	/* Plant 3 */
+	opts->axiom = "X";
+	opts->depth = 10;
+	opts->initial_degree = -M_PI_2;
+	opts->degree_step = 20 * M_PI / 180;
+	opts->rules['F'] = "FF";
+	opts->rules['X'] = "F[+X]F[--X]F[+X]";
+#endif
+
 	GtkWidget *window;
 	GtkWidget *drawing_area;
 
