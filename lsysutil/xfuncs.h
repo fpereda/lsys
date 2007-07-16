@@ -36,7 +36,19 @@
 #include <stdio.h>
 #include <string.h>
 
-#define __NORETURN __attribute__((noreturn))
+#if defined(__GNUC__)
+#    define __NORETURN __attribute__((noreturn))
+#else
+#    define __NORETURN
+#endif
+
+#if defined(__GNUC__)
+#    define likely(a)   __builtin_expect((a), 1)
+#    define unlikely(a) __builtin_expect((a), 0)
+#else
+#    define likely(a)   (a)
+#    define unlikely(a) (a)
+#endif
 
 static __NORETURN void oom(void)
 {
@@ -50,7 +62,7 @@ static inline void *xmalloc(size_t s)
 		return NULL;
 
 	void *p = malloc(s);
-	if (p != NULL)
+	if (likely(p != NULL))
 		return p;
 
 	oom();
@@ -59,7 +71,7 @@ static inline void *xmalloc(size_t s)
 static inline char *xstrdup(const char *c)
 {
 	char *p = strdup(c);
-	if (p != NULL)
+	if (likely(p != NULL))
 		return p;
 
 	oom();
