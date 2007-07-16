@@ -45,6 +45,16 @@
 #include "gui.h"
 #include "about.h"
 
+static void usage_pre(void)
+{
+	printf("Usage: %s [options]\n\n", PACKAGE_NAME);
+}
+
+static void usage_post(void)
+{
+	printf("\n");
+}
+
 static int add_rule(struct lsys_opts *o, char *r)
 {
 	unsigned len = strlen(r);
@@ -101,7 +111,7 @@ int main(int argc, char *argv[])
 		if (copme_error(cst))
 			return EXIT_FAILURE;
 		if (o_help->specified) {
-			copme_usage(cst);
+			copme_usage(cst, usage_pre, usage_post);
 			return EXIT_SUCCESS;
 		}
 	}
