@@ -10,7 +10,8 @@ bin_PROGRAMS = lsys
 
 lsys_SOURCES = draw.c  draw.h  \
                gui.c   gui.h   \
-               about.h about.c \
+               about.c about.h \
+               examples.c examples.h \
                main.c
 
 lsys_LDADD = $(PACKAGE_LIBS) \

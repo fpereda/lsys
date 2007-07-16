@@ -43,6 +43,7 @@
 
 #include "draw.h"
 #include "gui.h"
+#include "examples.h"
 #include "about.h"
 
 static void usage_pre(void)
@@ -84,6 +85,7 @@ int main(int argc, char *argv[])
 	struct copme_arg a_degree_step = {0, 0};
 	struct copme_arg a_initial_degree = {0, 0};
 	struct copme_arg a_rule = {0, 0};
+	struct copme_arg a_example = {0, 0};
 
 	struct copme_long copts[] = {
 		{"depth", 'd', "Generation of the l-system", COPME_HASARG, &a_depth},
@@ -91,11 +93,14 @@ int main(int argc, char *argv[])
 		{"degree-step", 's', "Delta. Degrees to turn in + and -", COPME_HASARG, &a_degree_step},
 		{"initial-degree", 'i', "Initial degree of the turtle", COPME_HASARG, &a_initial_degree},
 		{"rule", 'r', "Add a production rule to the l-system", COPME_HASARG, &a_rule},
+		{"list-examples", 'l', "List available examples", COPME_NOARG, 0},
+		{"example", 'e', "Use settings from an example", COPME_HASARG, &a_example},
 		{"help", 'h', "Display this information message", COPME_NOARG, 0},
 		{"version", 'V', "Display version information", COPME_NOARG, 0},
 		{0, 0, 0, 0, 0}
 	};
 
+	struct copme_long *o_list_examples = copme_option_named(copts, "list-examples");
 	struct copme_long *o_help = copme_option_named(copts, "help");
 	struct copme_long *o_version = copme_option_named(copts, "version");
 
@@ -121,6 +126,14 @@ int main(int argc, char *argv[])
 		return EXIT_SUCCESS;
 	}
 
+	if (o_list_examples->specified) {
+		example_list();
+		return EXIT_SUCCESS;
+	}
+
+	if (a_example.specified)
+		example_set(a_example.data, opts);
+
 	if (a_axiom.specified)
 		opts->axiom = a_axiom.data;
 	if (a_depth.specified)
@@ -131,97 +144,6 @@ int main(int argc, char *argv[])
 		opts->initial_degree = -(atoi(a_initial_degree.data) * M_PI / 180);
 
 	free(cst);
-
-#if 0
-	opts->axiom = "FX";
-	opts->depth = 16;
-	opts->degree_step = M_PI / 4;
-
-	opts->rules['F'] = "";
-	opts->rules['Y'] = "+FX--FY+";
-	opts->rules['X'] = "-FX++FY-";
-#endif
-
-#if 0
-	/* Koch Curve */
-	opts->axiom = "F";
-	opts->depth = 5;
-	opts->degree_step = M_PI / 4;
-	opts->rules['F'] = "F+F--F+F";
-#endif
-
-#if 0
-	/* Peano Curve */
-	opts->axiom = "F";
-	opts->depth = 2;
-	opts->degree_step = M_PI_2;
-	opts->rules['F'] = "F+F-F-F-F+F+F+F-F";
-#endif
-
-#if 0
-	/* Silly bush */
-	opts->axiom = "X";
-	opts->depth = 9;
-	opts->initial_degree = -M_PI_2;
-	opts->degree_step = M_PI / 7;
-	opts->rules['X'] = "F[-X][+X]";
-	opts->rules['F'] = "FF";
-#endif
-
-#if 0
-	/* NFC but cool */
-	opts->axiom = "F++F++F";
-	opts->depth = 3;
-	opts->degree_step = M_PI / 3;
-	opts->rules['F'] = "F+F--F+F";
-#endif
-
-#if 0
-	/* Koch island */
-	opts->axiom = "F++F++F";
-	opts->depth = 8;
-	opts->degree_step = M_PI / 3;
-	opts->rules['F'] = "F-F++F-F";
-#endif
-
-#if 0
-	/* Plant 1 */
-	opts->axiom = "X";
-	opts->depth = 7;
-	opts->initial_degree = -M_PI_2;
-	opts->degree_step = 25 * M_PI / 180;
-	opts->rules['F'] = "FF";
-	opts->rules['X'] = "F+[[X]-X]-F[-FX]+X";
-#endif
-
-#if 0
-	/* Tree 1 */
-	opts->axiom = "F";
-	opts->initial_degree = -M_PI_2;
-	opts->depth = 5;
-	opts->degree_step = M_PI / 8;
-	opts->rules['F'] = "FF-[-F+F+F]+[+F-F-F]";
-#endif
-
-#if 0
-	/* Plant 2 */
-	opts->axiom = "X";
-	opts->depth = 10;
-	opts->initial_degree = -M_PI_2;
-	opts->degree_step = M_PI / 8;
-	opts->rules['F'] = "FF";
-	opts->rules['X'] = "F[+X]F[+X]-X";
-#endif
-
-#if 0
-	/* Plant 3 */
-	opts->axiom = "X";
-	opts->depth = 10;
-	opts->initial_degree = -M_PI_2;
-	opts->degree_step = 20 * M_PI / 180;
-	opts->rules['F'] = "FF";
-	opts->rules['X'] = "F[+X]F[--X]F[+X]";
-#endif
 
 	GtkWidget *window;
 	GtkWidget *drawing_area;
