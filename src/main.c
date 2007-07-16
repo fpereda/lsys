@@ -35,6 +35,7 @@
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdio.h>
 
 #include <lsys/lsys.h>
 #include <lsysutil/xfuncs.h>
@@ -54,6 +55,12 @@ static void usage_pre(void)
 static void usage_post(void)
 {
 	printf("\n");
+}
+
+static int putchar_wrapper(int c, unsigned short d)
+{
+	putchar(c);
+	return 0;
 }
 
 static int add_rule(struct lsys_opts *o, char *r)
@@ -76,7 +83,7 @@ static int add_rule(struct lsys_opts *o, char *r)
 	return 0;
 }
 
-void parse_options(int argc, char *argv[])
+static void parse_options(int argc, char *argv[])
 {
 	struct lsys_opts *opts = get_lsys_opts();
 
@@ -95,12 +102,14 @@ void parse_options(int argc, char *argv[])
 		{"rule", 'r', "Add a production rule to the l-system", COPME_HASARG, &a_rule},
 		{"list-examples", 'l', "List available examples", COPME_NOARG, 0},
 		{"example", 'e', "Use settings from an example", COPME_HASARG, &a_example},
+		{"raw", 0, "Don't paint anything. Just print the l-system", COPME_NOARG, 0},
 		{"help", 'h', "Display this information message", COPME_NOARG, 0},
 		{"version", 'V', "Display version information", COPME_NOARG, 0},
 		{0, 0, 0, 0, 0}
 	};
 
 	struct copme_long *o_list_examples = copme_option_named(copts, "list-examples");
+	struct copme_long *o_raw = copme_option_named(copts, "raw");
 	struct copme_long *o_help = copme_option_named(copts, "help");
 	struct copme_long *o_version = copme_option_named(copts, "version");
 
@@ -146,6 +155,12 @@ void parse_options(int argc, char *argv[])
 		opts->degree_step = atoi(a_degree_step.data) * M_PI / 180;
 	if (a_initial_degree.specified)
 		opts->initial_degree = -(atoi(a_initial_degree.data) * M_PI / 180);
+
+	if (o_raw->specified) {
+		compute_figure(opts->axiom, opts->depth, putchar_wrapper);
+		putchar('\n');
+		goto suc;
+	}
 
 	return;
 
