@@ -78,9 +78,9 @@ int main(int argc, char *argv[])
 	struct copme_long copts[] = {
 		{"depth", 'd', "Generation of the l-system", COPME_HASARG, &a_depth},
 		{"axiom", 'a', "Starting point of the l-system", COPME_HASARG, &a_axiom},
-		{"degree-step", 0, "Delta. Degrees to turn in + and -", COPME_HASARG, &a_degree_step},
+		{"degree-step", 's', "Delta. Degrees to turn in + and -", COPME_HASARG, &a_degree_step},
 		{"initial-degree", 'i', "Initial degree of the turtle", COPME_HASARG, &a_initial_degree},
-		{"rule", 0, "Add a production rule to the l-system", COPME_HASARG, &a_rule},
+		{"rule", 'r', "Add a production rule to the l-system", COPME_HASARG, &a_rule},
 		{"help", 'h', "Display this information message", COPME_NOARG, 0},
 		{"version", 'V', "Display version information", COPME_NOARG, 0},
 		{0, 0, 0, 0, 0}
