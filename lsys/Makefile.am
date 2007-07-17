@@ -1,7 +1,7 @@
 CLEANFILES = *~
 MAINTAINERCLEANFILES = Makefile.in
 
-INCLUDES = $(PACKAGE_CFLAGS) -I$(top_srcdir)
+INCLUDES = -I$(top_srcdir)
 AM_CFLAGS = $(LSYS_CFLAGS)
 
 SUBDIRS = .

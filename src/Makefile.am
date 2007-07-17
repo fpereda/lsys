@@ -1,7 +1,7 @@
 CLEANFILES = *~
 MAINTAINERCLEANFILES = Makefile.in
 
-INCLUDES = $(PACKAGE_CFLAGS) -I$(top_srcdir)
+INCLUDES = $(GTK2CAIRO_CFLAGS) -I$(top_srcdir)
 AM_CFLAGS = $(LSYS_CFLAGS)
 
 SUBDIRS = .
@@ -14,7 +14,7 @@ lsys_SOURCES = draw.c  draw.h  \
                examples.c examples.h \
                main.c
 
-lsys_LDADD = $(PACKAGE_LIBS) \
+lsys_LDADD = $(GTK2CAIRO_LIBS) \
              $(top_builddir)/lsys/liblsys.a \
              $(top_builddir)/lsysutil/liblsysutil.a \
              $(top_builddir)/copme/libcopme.a
