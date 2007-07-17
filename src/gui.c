@@ -56,3 +56,34 @@ gboolean handle_expose(GtkWidget *widget,
 
 	return FALSE;
 }
+
+void launch_gui(int *argc, char ***argv)
+{
+	GtkWidget *window;
+	GtkWidget *drawing_area;
+
+	gtk_init(argc, argv);
+
+	/* Set up window */
+	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title(GTK_WINDOW(window), "lsys");
+
+	double width;
+	double height;
+	draw_size(&width, &height);
+	gtk_widget_set_size_request(window, width, height);
+	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
+
+	g_signal_connect(window, "destroy",
+			G_CALLBACK(gtk_main_quit), NULL);
+
+	/* Set drawing area */
+	drawing_area = gtk_drawing_area_new();
+	g_signal_connect(drawing_area, "expose-event",
+			G_CALLBACK(handle_expose), NULL);
+
+	gtk_container_add(GTK_CONTAINER(window), drawing_area);
+
+	gtk_widget_show_all(window);
+	gtk_main();
+}

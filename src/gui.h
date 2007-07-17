@@ -38,5 +38,6 @@
 
 gboolean handle_expose(GtkWidget *widget,
 		GdkEventExpose *event, gpointer data);
+void launch_gui(int *argc, char ***argv);
 
 #endif

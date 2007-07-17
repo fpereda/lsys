@@ -31,7 +31,6 @@
  */
 
 #include <stdlib.h>
-#include <gtk/gtk.h>
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
@@ -43,7 +42,6 @@
 
 #include <copme/copme.h>
 
-#include "draw.h"
 #include "gui.h"
 #include "examples.h"
 #include "about.h"
@@ -84,7 +82,7 @@ static int add_rule(struct lsys_opts *o, char *r)
 	return 0;
 }
 
-static void parse_options(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	struct lsys_opts *opts = get_lsys_opts();
 
@@ -163,47 +161,12 @@ static void parse_options(int argc, char *argv[])
 		goto suc;
 	}
 
-	return;
+	launch_gui(&argc, &argv);
 
 suc:
 	free(cst);
-	exit(EXIT_SUCCESS);
+	return EXIT_SUCCESS;
 err:
 	free(cst);
-	exit(EXIT_FAILURE);
-}
-
-int main(int argc, char *argv[])
-{
-	parse_options(argc, argv);
-
-	GtkWidget *window;
-	GtkWidget *drawing_area;
-
-	gtk_init(&argc, &argv);
-
-	/* Set up window */
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(window), "lsys");
-
-	double width;
-	double height;
-	draw_size(&width, &height);
-	gtk_widget_set_size_request(window, width, height);
-	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
-
-	g_signal_connect(window, "destroy",
-			G_CALLBACK(gtk_main_quit), NULL);
-
-	/* Set drawing area */
-	drawing_area = gtk_drawing_area_new();
-	g_signal_connect(drawing_area, "expose-event",
-			G_CALLBACK(handle_expose), NULL);
-
-	gtk_container_add(GTK_CONTAINER(window), drawing_area);
-
-	gtk_widget_show_all(window);
-	gtk_main();
-
-	return EXIT_SUCCESS;
+	return EXIT_FAILURE;
 }
