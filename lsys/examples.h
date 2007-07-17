@@ -2,7 +2,6 @@
 
 /*
  * Copyright (c) 2007, Fernando J. Pereda <ferdy@gentoo.org>
- * Copyright (c) 2007, Francesc Gordillo <frangor@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,39 +29,19 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _LSYS_LSYS_H
-#define _LSYS_LSYS_H 1
+#ifndef _LSYS_EXAMPLES_H
+#define _LSYS_EXAMPLES_H 1
 
-struct lsys_limits {
-	double max_x;
-	double max_y;
-	double min_x;
-	double min_y;
+#include "lsys.h"
+
+int lsys_set_example(char *key, struct lsys_opts *o);
+const struct lsysexample *lsys_get_examples(void);
+
+struct lsysexample {
+	char *lname;
+	char *key;
+	char *desc;
+	void (*do_example)(struct lsys_opts *o);
 };
-
-struct position {
-	double x;
-	double y;
-	long double degree;
-};
-
-struct lsys_opts {
-	char *axiom;
-	char *rules[256];
-	unsigned depth;
-	long double degree_step;
-	long double initial_degree;
-	int xmax;
-	int ymax;
-};
-
-struct lsys_opts *get_lsys_opts(void);
-const struct lsys_limits *get_lsys_limits(void);
-void invalidate_lsys_limits(void);
-void compute_figure(
-		const char *current,
-		unsigned depth,
-		int (*process)(int, unsigned short));
-void position_after_rule(int rule, struct position *pos);
 
 #endif

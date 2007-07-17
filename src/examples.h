@@ -2,7 +2,6 @@
 
 /*
  * Copyright (c) 2007, Fernando J. Pereda <ferdy@gentoo.org>
- * Copyright (c) 2007, Francesc Gordillo <frangor@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,18 +32,6 @@
 #ifndef __EXAMPLES_H
 #define __EXAMPLES_H 1
 
-#include <lsys/lsys.h>
-
 void example_list(void);
-int example_set(char *key, struct lsys_opts *o);
-
-struct lsysexample {
-	char *lname;
-	char *key;
-	char *desc;
-	void (*do_example)(struct lsys_opts *o);
-};
-
-extern struct lsysexample lsysexamples[];
 
 #endif

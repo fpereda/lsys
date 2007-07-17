@@ -38,6 +38,7 @@
 #include <stdio.h>
 
 #include <lsys/lsys.h>
+#include <lsys/examples.h>
 #include <lsysutil/xfuncs.h>
 
 #include <copme/copme.h>
@@ -141,7 +142,7 @@ static void parse_options(int argc, char *argv[])
 	}
 
 	if (a_example.specified)
-		if (example_set(a_example.data, opts) > 0) {
+		if (lsys_set_example(a_example.data, opts) > 0) {
 			fprintf(stderr, "Example with key '%s' not found.\n",
 					a_example.data);
 			goto err;

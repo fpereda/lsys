@@ -8,7 +8,8 @@ SUBDIRS = .
 
 lib_LIBRARIES = liblsys.a
 
-liblsys_a_SOURCES = lsys.c lsys.h
+liblsys_a_SOURCES = lsys.c lsys.h \
+                    examples.c examples.h
 liblsys_a_LIBADD = $(top_builddir)/lsysutil/liblsysutil.a
 
 # vim: set et:

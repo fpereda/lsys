@@ -2,7 +2,6 @@
 
 /*
  * Copyright (c) 2007, Fernando J. Pereda <ferdy@gentoo.org>
- * Copyright (c) 2007, Francesc Gordillo <frangor@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,179 +34,17 @@
 #include <math.h>
 
 #include <lsys/lsys.h>
+#include <lsys/examples.h>
 
 #include "examples.h"
-
-void example_dragon_curve(struct lsys_opts *o);
-void example_koch_curve(struct lsys_opts *o);
-void example_peano_curve(struct lsys_opts *o);
-void example_hilbert_curve(struct lsys_opts *o);
-void example_hilbert2_curve(struct lsys_opts *o);
-void example_antikoch_island(struct lsys_opts *o);
-void example_koch_island(struct lsys_opts *o);
-void example_sierpinski_arrowhead(struct lsys_opts *o);
-void example_sierpinski_sieve(struct lsys_opts *o);
-void example_plant1(struct lsys_opts *o);
-void example_plant2(struct lsys_opts *o);
-void example_plant3(struct lsys_opts *o);
-void example_tree1(struct lsys_opts *o);
-
-struct lsysexample lsysexamples[] = {
-	{"Dragon Curve", "dragon", "A filling curve fractal", example_dragon_curve},
-	{"Koch Curve", "koch-curve", "Interesting mathematical monster", example_koch_curve},
-	{"Peano Curve", "peano", "Another filling curve fractal", example_peano_curve},
-	{"Hilbert Curve", "hilbert", "Yet another filling curve", example_hilbert_curve},
-	{"Hilbert Curve II ", "hilbert2", "Variant of the Hilbert Curve", example_hilbert2_curve},
-	{"anti-Koch Island", "akoch-island", "Koch Island with oposite angles", example_antikoch_island},
-	{"Koch Island", "koch-island", "Three Koch curves forming a triangle", example_koch_island},
-	{"Sierpinski Arrowhead", "sier-arrow", "The Sierpinski Arrowhead", example_sierpinski_arrowhead},
-	{"Sierpinski Sieve", "sier-sieve", "The Sierpinski Sieve", example_sierpinski_sieve},
-	{"Plant 1", "plant1", "A plant-like lsystem", example_plant1},
-	{"Plant 2", "plant2", "A plant-like lsystem", example_plant2},
-	{"Plant 3", "plant3", "A plant-like lsystem", example_plant3},
-	{"Tree 1", "tree1", "A tree/bush-like lsystem", example_tree1},
-	{0, 0, 0, 0}
-};
 
 void example_list(void)
 {
 	printf("The following examples are available:\n\n");
 	printf("  Key           | Name                 | Description\n");
 	printf(" ====================================================\n");
-	struct lsysexample *e;
-	for (e = lsysexamples; e->lname; e++)
+	const struct lsysexample *e;
+	for (e = lsys_get_examples(); e->lname; e++)
 		printf("  %-13s | %-20s | %s\n", e->key, e->lname, e->desc ? e->desc : "");
 	putchar('\n');
-}
-
-int example_set(char *key, struct lsys_opts *o)
-{
-	struct lsysexample *e;
-	for (e = lsysexamples; e->lname; e++) {
-		if (strcmp(key, e->key) != 0)
-			continue;
-		e->do_example(o);
-		return 0;
-	}
-	return 1;
-}
-
-void example_dragon_curve(struct lsys_opts *o)
-{
-	o->axiom = "FX";
-	o->depth = 16;
-	o->degree_step = M_PI / 4;
-
-	o->rules['F'] = "";
-	o->rules['Y'] = "+FX--FY+";
-	o->rules['X'] = "-FX++FY-";
-}
-
-void example_koch_curve(struct lsys_opts *o)
-{
-	o->axiom = "F";
-	o->depth = 5;
-	o->degree_step = M_PI / 4;
-	o->rules['F'] = "F+F--F+F";
-
-}
-
-void example_peano_curve(struct lsys_opts *o)
-{
-	o->axiom = "F";
-	o->depth = 2;
-	o->degree_step = M_PI_2;
-	o->rules['F'] = "F+F-F-F-F+F+F+F-F";
-}
-
-void example_hilbert_curve(struct lsys_opts *o)
-{
-	o->axiom = "L";
-	o->depth = 2;
-	o->degree_step = M_PI_2;
-	o->rules['L'] = "+RF-LFL-FR+";
-	o->rules['R'] = "-LF+RFR+FL-";
-}
-
-void example_hilbert2_curve(struct lsys_opts *o)
-{
-	o->axiom = "X";
-	o->depth = 2;
-	o->degree_step = M_PI_2;
-	o->rules['X'] = "XFYFX+F+YFXFY-F-XFYFX";
-	o->rules['Y'] = "YFXFY-F-XFYFX+F+YFXFY";
-}
-
-void example_antikoch_island(struct lsys_opts *o)
-{
-	o->axiom = "F++F++F";
-	o->depth = 3;
-	o->degree_step = M_PI / 3;
-	o->rules['F'] = "F+F--F+F";
-}
-
-void example_koch_island(struct lsys_opts *o)
-{
-	o->axiom = "F++F++F";
-	o->depth = 8;
-	o->degree_step = M_PI / 3;
-	o->rules['F'] = "F-F++F-F";
-}
-
-void example_sierpinski_arrowhead(struct lsys_opts *o)
-{
-	o->axiom = "YF";
-	o->depth = 8;
-	o->degree_step = M_PI / 3;
-	o->rules['X'] = "YF+XF+Y";
-	o->rules['Y'] = "XF-YF-X";
-}
-
-void example_sierpinski_sieve(struct lsys_opts *o)
-{
-	o->axiom = "FXF--FF--FF";
-	o->depth = 7;
-	o->initial_degree = M_PI;
-	o->degree_step = M_PI / 3;
-	o->rules['F'] = "FF";
-	o->rules['X'] = "--FXF++FXF++FXF--";
-}
-
-void example_plant1(struct lsys_opts *o)
-{
-	o->axiom = "X";
-	o->depth = 7;
-	o->initial_degree = -M_PI_2;
-	o->degree_step = 25 * M_PI / 180;
-	o->rules['F'] = "FF";
-	o->rules['X'] = "F+[[X]-X]-F[-FX]+X";
-}
-
-void example_plant2(struct lsys_opts *o)
-{
-	o->axiom = "X";
-	o->depth = 10;
-	o->initial_degree = -M_PI_2;
-	o->degree_step = M_PI / 8;
-	o->rules['F'] = "FF";
-	o->rules['X'] = "F[+X]F[+X]-X";
-}
-
-void example_plant3(struct lsys_opts *o)
-{
-	o->axiom = "X";
-	o->depth = 10;
-	o->initial_degree = -M_PI_2;
-	o->degree_step = 20 * M_PI / 180;
-	o->rules['F'] = "FF";
-	o->rules['X'] = "F[+X]F[--X]F[+X]";
-}
-
-void example_tree1(struct lsys_opts *o)
-{
-	o->axiom = "F";
-	o->initial_degree = -M_PI_2;
-	o->depth = 5;
-	o->degree_step = M_PI / 8;
-	o->rules['F'] = "FF-[-F+F+F]+[+F-F-F]";
 }
