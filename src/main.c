@@ -50,7 +50,7 @@
 
 static void usage_pre(void)
 {
-	printf("Usage: %s [options]\n\n", PACKAGE_NAME);
+	printf("Usage: %s [options]\n\n", LSYS_PACKAGE);
 }
 
 static void usage_post(void)

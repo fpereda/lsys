@@ -34,7 +34,8 @@
 const char *version(void)
 {
 	static const char v[] =
-		PACKAGE_NAME " " PACKAGE_VERSION "\n\n"
+		LSYS_PACKAGE " " LSYS_VERSION_MAJOR "." LSYS_VERSION_MINOR
+			"." LSYS_VERSION_MICRO "\n\n"
 		"Built by  " LSYS_BUILD_USER "@" LSYS_BUILD_HOST " on " LSYS_BUILD_DATE "\n"
 		"Git rev:  " LSYS_GITREV "\n"
 		"CC:       " LSYS_BUILD_CC
