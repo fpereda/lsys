@@ -51,8 +51,8 @@ void example_plant3(struct lsys_opts *o);
 void example_tree1(struct lsys_opts *o);
 
 static const struct lsysexample lsysexamples[] = {
-	{"Dragon Curve", "dragon", "A filling curve fractal", example_dragon_curve},
 	{"Koch Curve", "koch-curve", "Interesting mathematical monster", example_koch_curve},
+	{"Dragon Curve", "dragon", "A filling curve fractal", example_dragon_curve},
 	{"Peano Curve", "peano", "Another filling curve fractal", example_peano_curve},
 	{"Hilbert Curve", "hilbert", "Yet another filling curve", example_hilbert_curve},
 	{"Hilbert Curve II ", "hilbert2", "Variant of the Hilbert Curve", example_hilbert2_curve},
@@ -87,7 +87,7 @@ int lsys_set_example(char *key, struct lsys_opts *o)
 void example_dragon_curve(struct lsys_opts *o)
 {
 	o->axiom = "FX";
-	o->depth = 16;
+	o->depth = 14;
 	o->degree_step = M_PI / 4;
 
 	o->rules['F'] = "";
