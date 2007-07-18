@@ -151,9 +151,9 @@ int main(int argc, char *argv[])
 	if (a_depth.specified)
 		opts->depth = atoi(a_depth.data);
 	if (a_degree_step.specified)
-		opts->degree_step = atoi(a_degree_step.data) * M_PI / 180;
+		opts->degree_step = atof(a_degree_step.data) * M_PI / 180;
 	if (a_initial_degree.specified)
-		opts->initial_degree = -(atoi(a_initial_degree.data) * M_PI / 180);
+		opts->initial_degree = -(atof(a_initial_degree.data) * M_PI / 180);
 
 	if (o_raw->specified) {
 		compute_figure(opts->axiom, opts->depth, putchar_wrapper);
