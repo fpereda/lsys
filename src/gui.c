@@ -45,7 +45,7 @@ gboolean handle_expose(GtkWidget *widget,
 
 	/* Background */
 	cairo_save(rcr);
-	cairo_set_source_rgb(rcr, 0.337, 0.612, 0.117);   // green
+	cairo_set_source_rgb(rcr, 1, 1, 1);
 	cairo_paint(rcr);
 	cairo_restore(rcr);
 
