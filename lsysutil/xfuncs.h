@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __XFUNCS_H
-#define __XFUNCS_H 1
+#ifndef LSYSUTIL_GUARD_XFUNCS_H
+#define LSYSUTIL_GUARD_XFUNCS_H 1
 
 #include <stdlib.h>
 #include <stdio.h>

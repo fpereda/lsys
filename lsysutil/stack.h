@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __STACK_H
-#define __STACK_H
+#ifndef LSYSUTIL_GUARD_STACK_H
+#define LSYSUTIL_GUARD_STACK_H 1
 
 #include <unistd.h>
 #include <stdlib.h>

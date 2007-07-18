@@ -30,8 +30,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _LSYS_LSYS_H
-#define _LSYS_LSYS_H 1
+#ifndef LSYS_GUARD_LSYS_H
+#define LSYS_GUARD_LSYS_H 1
 
 struct lsys_limits {
 	double max_x;

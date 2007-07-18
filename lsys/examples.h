@@ -29,8 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _LSYS_EXAMPLES_H
-#define _LSYS_EXAMPLES_H 1
+#ifndef LSYS_GUARD_EXAMPLES_H
+#define LSYS_GUARD_EXAMPLES_H 1
 
 #include "lsys.h"
 
