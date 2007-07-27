@@ -45,9 +45,12 @@ void example_antikoch_island(struct lsys_opts *o);
 void example_koch_island(struct lsys_opts *o);
 void example_sierpinski_arrowhead(struct lsys_opts *o);
 void example_sierpinski_sieve(struct lsys_opts *o);
+void example_sierpinski_carpet(struct lsys_opts *o);
 void example_plant1(struct lsys_opts *o);
 void example_plant2(struct lsys_opts *o);
 void example_plant3(struct lsys_opts *o);
+void example_plant4(struct lsys_opts *o);
+void example_plant5(struct lsys_opts *o);
 void example_tree1(struct lsys_opts *o);
 
 static const struct lsysexample lsysexamples[] = {
@@ -60,9 +63,12 @@ static const struct lsysexample lsysexamples[] = {
 	{"Koch Island", "koch-island", "Three Koch curves forming a triangle", example_koch_island},
 	{"Sierpinski Arrowhead", "sier-arrow", "The Sierpinski Arrowhead", example_sierpinski_arrowhead},
 	{"Sierpinski Sieve", "sier-sieve", "The Sierpinski Sieve", example_sierpinski_sieve},
+	{"Sierpinski Carpet", "sier-carpet", "The Sierpinski Carpet", example_sierpinski_carpet},
 	{"Plant 1", "plant1", "A plant-like lsystem", example_plant1},
 	{"Plant 2", "plant2", "A plant-like lsystem", example_plant2},
 	{"Plant 3", "plant3", "A plant-like lsystem", example_plant3},
+	{"Plant 4", "plant4", "A plant-like lsystem", example_plant4},
+	{"Plant 5", "plant5", "A plant-like lsystem", example_plant5},
 	{"Tree 1", "tree1", "A tree/bush-like lsystem", example_tree1},
 	{0, 0, 0, 0}
 };
@@ -165,6 +171,15 @@ void example_sierpinski_sieve(struct lsys_opts *o)
 	o->rules['X'] = "--FXF++FXF++FXF--";
 }
 
+void example_sierpinski_carpet(struct lsys_opts *o)
+{
+	o->axiom = "F";
+	o->depth = 5;
+	o->degree_step = M_PI / 2;
+	o->rules['F'] = "F+F-F-F-G+F+F+F-F";
+	o->rules['G'] = "GGG";
+}
+
 void example_plant1(struct lsys_opts *o)
 {
 	o->axiom = "X";
@@ -193,6 +208,25 @@ void example_plant3(struct lsys_opts *o)
 	o->degree_step = 20 * M_PI / 180;
 	o->rules['F'] = "FF";
 	o->rules['X'] = "F[+X]F[--X]F[+X]";
+}
+
+void example_plant4(struct lsys_opts *o)
+{
+	o->axiom = "Z";
+	o->depth = 8;
+	o->initial_degree = -M_PI_2;
+	o->degree_step = M_PI / 7;
+	o->rules['Z'] = "ZFX[+Z][-Z]";
+	o->rules['X'] = "X[-FFF][+FFF]FX";
+}
+
+void example_plant5(struct lsys_opts *o)
+{
+	o->axiom = "X";
+	o->depth = 8;
+	o->degree_step = M_PI / 6;
+	o->rules['F'] = "FF";
+	o->rules['X'] = "F[+X][-X]FX";
 }
 
 void example_tree1(struct lsys_opts *o)
