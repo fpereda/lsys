@@ -225,6 +225,7 @@ void example_plant5(struct lsys_opts *o)
 	o->axiom = "X";
 	o->depth = 8;
 	o->degree_step = M_PI / 6;
+	o->initial_degree = -M_PI_2;
 	o->rules['F'] = "FF";
 	o->rules['X'] = "F[+X][-X]FX";
 }
