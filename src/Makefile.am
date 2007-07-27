@@ -1,8 +1,8 @@
 CLEANFILES = *~
 MAINTAINERCLEANFILES = Makefile.in
 
-INCLUDES = $(GTK2CAIRO_CFLAGS) -I$(top_srcdir)
-AM_CFLAGS = $(LSYS_CFLAGS)
+INCLUDES = -I$(top_srcdir)
+AM_CFLAGS = @LSYS_CFLAGS@ $(gtk_CFLAGS) $(gdk_CFLAGS) $(cairo_CFLAGS)
 
 SUBDIRS = .
 
@@ -14,9 +14,10 @@ lsys_SOURCES = draw.c  draw.h  \
                examples.c examples.h \
                main.c
 
-lsys_LDADD = $(GTK2CAIRO_LIBS) \
+lsys_LDADD = \
              $(top_builddir)/lsys/liblsys.a \
              $(top_builddir)/lsysutil/liblsysutil.a \
-             $(top_builddir)/copme/libcopme.a
+             $(top_builddir)/copme/libcopme.a \
+             $(gtk_LIBS) $(gdk_LIBS) $(cairo_LIBS)
 
 # vim: set et:
