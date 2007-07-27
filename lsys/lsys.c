@@ -60,7 +60,7 @@ static struct position limits_pos = {0, 0, 0};
 
 static int calculate_limits(int rule, unsigned short curdepth)
 {
-	position_after_rule(rule, &limits_pos);
+	position_after_rule(rule, &limits_pos, curdepth);
 
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
 #define MIN(a, b) (((a) < (b)) ? (a) : (b))
@@ -106,21 +106,25 @@ void compute_figure(
 	do_compute_figure(current, depth, 0, process);
 }
 
-void position_after_rule(int rule, struct position *pos)
+void position_after_rule(int rule, struct position *pos, unsigned short cdepth)
 {
 	struct lsys_opts *opts = get_lsys_opts();
 	stack *saved_pos = get_saved_pos();
 	struct position *npos;
+	long double delta = opts->delta_depth == 1
+		? 1
+		: powl(opts->delta_depth, cdepth);
 	switch (rule) {
 		case '#':
 			pos->x = 0;
 			pos->y = 0;
 			pos->degree = opts->initial_degree;
 			break;
+		case '|':
 		case 'G':
 		case 'F':
-			pos->y += sin(pos->degree);
-			pos->x += cos(pos->degree);
+			pos->y += sin(pos->degree) * delta;
+			pos->x += cos(pos->degree) * delta;
 			break;
 		case '+':
 			pos->degree -= opts->degree_step;
@@ -174,6 +178,7 @@ struct lsys_opts *get_lsys_opts(void)
 		opts.depth = 0;
 		opts.degree_step = M_PI / 2;
 		opts.initial_degree = 0;
+		opts.delta_depth = 1;
 		opts.xmax = 800;
 		opts.ymax = 600;
 

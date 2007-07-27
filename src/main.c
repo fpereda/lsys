@@ -90,6 +90,7 @@ int main(int argc, char *argv[])
 	struct copme_arg a_axiom;
 	struct copme_arg a_degree_step;
 	struct copme_arg a_initial_degree;
+	struct copme_arg a_delta_depth;
 	struct copme_arg a_rule;
 	struct copme_arg a_example;
 
@@ -98,6 +99,7 @@ int main(int argc, char *argv[])
 		{"axiom", 'a', "Starting point of the l-system", COPME_HASARG, &a_axiom},
 		{"degree-step", 's', "Delta. Degrees to turn in + and -", COPME_HASARG, &a_degree_step},
 		{"initial-degree", 'i', "Initial degree of the turtle", COPME_HASARG, &a_initial_degree},
+		{"delta-depth", 'D', "Delta for each depth. Command '|'.", COPME_HASARG, &a_delta_depth},
 		{"rule", 'r', "Add a production rule to the l-system", COPME_HASARG, &a_rule},
 		{"list-examples", 'l', "List available examples", COPME_NOARG, 0},
 		{"example", 'e', "Use settings from an example", COPME_HASARG, &a_example},
@@ -154,6 +156,15 @@ int main(int argc, char *argv[])
 		opts->degree_step = atof(a_degree_step.data) * M_PI / 180;
 	if (a_initial_degree.specified)
 		opts->initial_degree = -(atof(a_initial_degree.data) * M_PI / 180);
+	if (a_delta_depth.specified) {
+		double dd = atof(a_delta_depth.data);
+		if (dd > 0 && dd <= 1)
+			opts->delta_depth = dd;
+		else {
+			fprintf(stderr, "delta-depth has to be between 0 and 1.\n");
+			goto err;
+		}
+	}
 
 	if (o_raw->specified) {
 		compute_figure(opts->axiom, opts->depth, putchar_wrapper);

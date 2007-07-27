@@ -52,6 +52,7 @@ struct lsys_opts {
 	unsigned depth;
 	long double degree_step;
 	long double initial_degree;
+	long double delta_depth;
 	int xmax;
 	int ymax;
 };
@@ -63,6 +64,6 @@ void compute_figure(
 		const char *current,
 		unsigned depth,
 		int (*process)(int, unsigned short));
-void position_after_rule(int rule, struct position *pos);
+void position_after_rule(int rule, struct position *pos, unsigned short cdepth);
 
 #endif

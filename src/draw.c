@@ -42,9 +42,9 @@ int draw_rule(int rule, unsigned short curdepth)
 {
 	static struct position pos = {0, 0, 0};
 
-	position_after_rule(rule, &pos);
+	position_after_rule(rule, &pos, curdepth);
 
-	if (rule == 'F')
+	if (rule == 'F' || rule == '|')
 		cairo_line_to(cr, pos.x, pos.y);
 	else if (rule == 'G' || rule == '#' || rule == ']')
 		cairo_move_to(cr, pos.x, pos.y);
