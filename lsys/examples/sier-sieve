@@ -1,0 +1,10 @@
+Name: Sierpinski Sieve
+Description: The Sierpinski Sieve
+{
+	o->axiom = "FXF--FF--FF";
+	o->depth = 7;
+	o->initial_degree = M_PI;
+	o->degree_step = M_PI / 3;
+	o->rules['F'] = "FF";
+	o->rules['X'] = "--FXF++FXF++FXF--";
+}

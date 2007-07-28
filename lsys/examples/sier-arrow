@@ -1,0 +1,9 @@
+Name: Sierpinski Arrowhead
+Description: The Sierpinski Arrowhead
+{
+	o->axiom = "YF";
+	o->depth = 8;
+	o->degree_step = M_PI / 3;
+	o->rules['X'] = "YF+XF+Y";
+	o->rules['Y'] = "XF-YF-X";
+}

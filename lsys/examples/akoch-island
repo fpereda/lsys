@@ -1,0 +1,8 @@
+Name: anti-Koch Island
+Description: Koch Island with oposite angles
+{
+	o->axiom = "F++F++F";
+	o->depth = 3;
+	o->degree_step = M_PI / 3;
+	o->rules['F'] = "F+F--F+F";
+}

@@ -1,0 +1,10 @@
+Name: Dragon Curve
+Description: A filling curve fractal
+{
+	o->axiom = "FX";
+	o->depth = 14;
+	o->degree_step = M_PI / 4;
+	o->rules['F'] = "";
+	o->rules['Y'] = "+FX--FY+";
+	o->rules['X'] = "-FX++FY-";
+}

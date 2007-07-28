@@ -1,0 +1,9 @@
+Name: Tree 1
+Description: A tree/bush-like lsystem
+{
+	o->axiom = "F";
+	o->initial_degree = -M_PI_2;
+	o->depth = 5;
+	o->degree_step = M_PI / 8;
+	o->rules['F'] = "FF-[-F+F+F]+[+F-F-F]";
+}

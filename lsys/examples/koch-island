@@ -1,0 +1,8 @@
+Name: Koch Island
+Description: Three Koch curves forming a triangle
+{
+	o->axiom = "F++F++F";
+	o->depth = 8;
+	o->degree_step = M_PI / 3;
+	o->rules['F'] = "F-F++F-F";
+}

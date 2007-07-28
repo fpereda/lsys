@@ -1,0 +1,9 @@
+Name: Sierpinski Carpet
+Description: The Sierpinski Carpet
+{
+	o->axiom = "F";
+	o->depth = 5;
+	o->degree_step = M_PI / 2;
+	o->rules['F'] = "F+F-F-F-G+F+F+F-F";
+	o->rules['G'] = "GGG";
+}

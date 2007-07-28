@@ -1,0 +1,8 @@
+Name: Peano Curve
+Description: Another filling curve fractal
+{
+	o->axiom = "F";
+	o->depth = 2;
+	o->degree_step = M_PI_2;
+	o->rules['F'] = "F+F-F-F-F+F+F+F-F";
+}

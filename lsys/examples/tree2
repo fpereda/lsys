@@ -1,0 +1,10 @@
+Name: Tree 2
+Description: A tree-like lsystem
+{
+	o->axiom = "F";
+	o->initial_degree = -M_PI_2;
+	o->depth = 8;
+	o->delta_depth = 0.75L;
+	o->degree_step = M_PI / 8;
+	o->rules['F'] = "|[--F][+F]-F";
+}

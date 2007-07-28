@@ -1,0 +1,8 @@
+Name: Koch Curve
+Description: Interesting mathematical monster.
+{
+	o->axiom = "F";
+	o->depth = 5;
+	o->degree_step = M_PI / 4;
+	o->rules['F'] = "F+F--F+F";
+}

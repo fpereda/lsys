@@ -1,0 +1,10 @@
+Name: Plant 4
+Description: A plant-like lsystem
+{
+	o->axiom = "Z";
+	o->depth = 8;
+	o->initial_degree = -M_PI_2;
+	o->degree_step = M_PI / 7;
+	o->rules['Z'] = "ZFX[+Z][-Z]";
+	o->rules['X'] = "X[-FFF][+FFF]FX";
+}

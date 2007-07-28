@@ -1,0 +1,10 @@
+Name: Plant 3
+Description: A plant-like lsystem
+{
+	o->axiom = "X";
+	o->depth = 10;
+	o->initial_degree = -M_PI_2;
+	o->degree_step = 20 * M_PI / 180;
+	o->rules['F'] = "FF";
+	o->rules['X'] = "F[+X]F[--X]F[+X]";
+}

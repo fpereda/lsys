@@ -1,0 +1,9 @@
+Name: Hilbert Curve II
+Description: Variant of the Hilbert Curve
+{
+	o->axiom = "X";
+	o->depth = 2;
+	o->degree_step = M_PI_2;
+	o->rules['X'] = "XFYFX+F+YFXFY-F-XFYFX";
+	o->rules['Y'] = "YFXFY-F-XFYFX+F+YFXFY";
+}

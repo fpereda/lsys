@@ -1,0 +1,9 @@
+Name: Hilbert Curve
+Description: Yet another filling curve
+{
+	o->axiom = "L";
+	o->depth = 2;
+	o->degree_step = M_PI_2;
+	o->rules['L'] = "+RF-LFL-FR+";
+	o->rules['R'] = "-LF+RFR+FL-";
+}
