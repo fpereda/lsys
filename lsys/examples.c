@@ -52,6 +52,7 @@ void example_plant3(struct lsys_opts *o);
 void example_plant4(struct lsys_opts *o);
 void example_plant5(struct lsys_opts *o);
 void example_tree1(struct lsys_opts *o);
+void example_tree2(struct lsys_opts *o);
 
 static const struct lsysexample lsysexamples[] = {
 	{"Koch Curve", "koch-curve", "Interesting mathematical monster", example_koch_curve},
@@ -70,6 +71,7 @@ static const struct lsysexample lsysexamples[] = {
 	{"Plant 4", "plant4", "A plant-like lsystem", example_plant4},
 	{"Plant 5", "plant5", "A plant-like lsystem", example_plant5},
 	{"Tree 1", "tree1", "A tree/bush-like lsystem", example_tree1},
+	{"Tree 2", "tree2", "A tree-like lsystem", example_tree2},
 	{0, 0, 0, 0}
 };
 
@@ -237,4 +239,14 @@ void example_tree1(struct lsys_opts *o)
 	o->depth = 5;
 	o->degree_step = M_PI / 8;
 	o->rules['F'] = "FF-[-F+F+F]+[+F-F-F]";
+}
+
+void example_tree2(struct lsys_opts *o)
+{
+	o->axiom = "F";
+	o->initial_degree = -M_PI_2;
+	o->depth = 8;
+	o->delta_depth = 0.75L;
+	o->degree_step = M_PI / 8;
+	o->rules['F'] = "|[--F][+F]-F";
 }
