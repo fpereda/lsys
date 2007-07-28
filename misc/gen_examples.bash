@@ -51,9 +51,14 @@ for f in ${dir}/* ; do
 		${funhead}\n@LSYSEXAMPLE_FUNBODY@\n" \
 		${outputfile}
 	tmpfile=$(mktemp)
+	if [[ ! -w ${tmpfile} ]] ; then
+		echo "Can't write to temp file (${tmpfile})"
+		exit 4
+	fi
 	echo -e "${code}" > ${tmpfile}
 	sed -i -e "/@LSYSEXAMPLE_FUNBODY@/r ${tmpfile}" \
 		-e '/@LSYSEXAMPLE_FUNBODY@/d' ${outputfile}
+	rm -f ${tmpfile}
 done
 
 sed -i \
