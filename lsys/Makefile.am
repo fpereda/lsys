@@ -14,6 +14,7 @@ liblsys_a_LIBADD = $(top_builddir)/lsysutil/liblsysutil.a
 
 examples.c: $(top_srcdir)/misc/gen_examples.bash
 	$(top_srcdir)/misc/gen_examples.bash \
+		$(top_srcdir)/misc/generated-file.txt \
 		$(top_srcdir)/lsys/examples \
 		$(top_srcdir)/lsys/examples.c.in
 

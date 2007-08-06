@@ -12,13 +12,14 @@ get_code() {
 	sed -n -e '/^{$/,/^}$/p' $1
 }
 
-if [[ $# != 2 ]] ; then
-	echo "Usage: $0 directory inputfile"
+if [[ $# != 3 ]] ; then
+	echo "Usage: $0 generated-template directory inputfile"
 	exit 1
 fi
 
-dir=$1
-inputfile=$2
+generated=$1
+dir=$2
+inputfile=$3
 outputfile=${inputfile%.in}
 
 if [[ ! -d ${dir} ]] ; then
@@ -31,7 +32,7 @@ if [[ ! -e ${inputfile} || -d ${inputfile} ]] ; then
 	exit 3
 fi
 
-sed -e '/@GENERATED_FILE@/r misc/generated-file.txt' \
+sed -e "/@GENERATED_FILE@/r ${generated}" \
 	-e '/@GENERATED_FILE@/d' \
 	"${inputfile}" > "${outputfile}"
 
