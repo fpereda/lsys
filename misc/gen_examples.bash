@@ -33,36 +33,33 @@ fi
 
 sed -e '/@GENERATED_FILE@/r misc/generated-file.txt' \
 	-e '/@GENERATED_FILE@/d' \
-	${inputfile} > ${outputfile}
+	"${inputfile}" > "${outputfile}"
 
-for f in ${dir}/* ; do
+for f in "${dir}"/* ; do
 	key=${f##*/}
 	func=${key//-/_}
-	name=$(get_name ${f})
-	desc=$(get_desc ${f})
-	code=$(get_code ${f})
+	name=$(get_name "${f}")
+	desc=$(get_desc "${f}")
+	code=$(get_code "${f}")
 	entry="{\"${name}\", \"${key}\", \"${desc}\", example_${func}},"
 	funhead='void example_'${func}'(struct lsys_opts *o)'
 	sed -i -e "/@LSYSEXAMPLE_DEFS@/i ${funhead};" \
-		${outputfile}
+		"${outputfile}"
 	sed -i -e "/@LSYSEXAMPLE_ENTRIES@/i ${entry}" \
-		${outputfile}
+		"${outputfile}"
 	sed -i -e "/@LSYSEXAMPLE_FUNCTIONS@/i\
 		${funhead}\n@LSYSEXAMPLE_FUNBODY@\n" \
-		${outputfile}
+		"${outputfile}"
 	tmpfile=$(mktemp)
 	if [[ ! -w ${tmpfile} ]] ; then
 		echo "Can't write to temp file (${tmpfile})"
 		exit 4
 	fi
-	echo -e "${code}" > ${tmpfile}
+	echo -e "${code}" > "${tmpfile}"
 	sed -i -e "/@LSYSEXAMPLE_FUNBODY@/r ${tmpfile}" \
-		-e '/@LSYSEXAMPLE_FUNBODY@/d' ${outputfile}
-	rm -f ${tmpfile}
+		-e '/@LSYSEXAMPLE_FUNBODY@/d' "${outputfile}"
+	rm -f "${tmpfile}"
 done
 
-sed -i \
-	-e '/@LSYSEXAMPLE_DEFS@/d' \
-	-e '/@LSYSEXAMPLE_ENTRIES@/d' \
-	-e '/@LSYSEXAMPLE_FUNCTIONS@/d' \
-	${outputfile}
+sed -i -e '/@LSYSEXAMPLE_\(DEFS\|ENTRIES\|FUNCTIONS\)@/d' \
+	"${outputfile}"
