@@ -48,7 +48,7 @@ int repeat(void)
 
 void run_test(void)
 {
-    stack *s = stack_alloc_init(NULL);
+	stack *s = stack_alloc_init(NULL);
 	CTME_CHECK(stack_empty(s));
 	CTME_CHECK_EQUAL(stack_peek(s), NULL);
 	stack_destroy(s);
