@@ -4,7 +4,7 @@ MAINTAINERCLEANFILES = Makefile.in
 INCLUDES = -I$(top_srcdir)
 AM_CFLAGS = @LSYS_CFLAGS@ $(gtk_CFLAGS) $(gdk_CFLAGS) $(cairo_CFLAGS)
 
-SUBDIRS = .
+SUBDIRS = . test
 
 bin_PROGRAMS = lsys
 

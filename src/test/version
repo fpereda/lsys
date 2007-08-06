@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+check_tempfile_or_die() {
+	while [[ -n $1 ]] ; do
+		if [[ ! -w $1 ]] ; then
+			echo "Could not write to temp file '$1'. Aborting." >&2
+			exit 1
+		fi
+		shift
+	done
+}
+
+LSYS=../lsys
+
+if [[ ! -x ${LSYS} ]] ; then
+	echo "Could not execute lsys (${LSYS}). Aborting." >&2
+	exit 2
+fi
+
+flong=$(mktemp)
+fshort=$(mktemp)
+check_tempfile_or_die "${flong}" "${fshort}"
+
+${LSYS} --version > "${flong}"
+${LSYS} -V > "${fshort}"
+
+if ! cmp "${flong}" "${fshort}" >/dev/null 2>&1 ; then
+	echo "lsys -V (${fshort}) differs from lsys --version (${flong})." >&2
+	exit 3
+fi
+
+rm -f "${flong}" "${fshort}"
+${LSYS} --version
+
+exit 0
