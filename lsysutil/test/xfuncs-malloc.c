@@ -52,10 +52,10 @@ void run_test(void)
 	void *p;
 	
 	p = xmalloc(0);
-	CTME_CHECK_EQUAL(p, NULL);
+	CTME_CHECK_NULL(p);
 
 	p = xmalloc(100);
-	CTME_CHECK(p != NULL);
+	CTME_CHECK_NOT_NULL(p);
 
 	static const char s[] = "1234567890";
 	const char *src = s;

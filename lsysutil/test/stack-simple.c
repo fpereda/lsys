@@ -50,7 +50,7 @@ void run_test(void)
 {
 	stack *s = stack_alloc_init(NULL);
 	CTME_CHECK(stack_empty(s));
-	CTME_CHECK_EQUAL(stack_peek(s), NULL);
+	CTME_CHECK_NULL(stack_peek(s));
 	stack_destroy(s);
 
 	s = stack_alloc_init(NULL);
@@ -64,7 +64,7 @@ void run_test(void)
 	double *paa = stack_pop(s);
 	CTME_CHECK_EQUAL(paa, pa);
 	CTME_CHECK_EQUAL(stack_size(s), 0);
-	CTME_CHECK_EQUAL(stack_peek(s), NULL);
+	CTME_CHECK_NULL(stack_peek(s));
 
 	unsigned ten[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 	unsigned i;
@@ -82,6 +82,6 @@ void run_test(void)
 	}
 
 	CTME_CHECK_EQUAL(stack_size(s), 0);
-	CTME_CHECK_EQUAL(stack_peek(s), NULL);
+	CTME_CHECK_NULL(stack_peek(s));
 	stack_destroy(s);
 }
