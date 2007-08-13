@@ -86,41 +86,45 @@ int main(int argc, char *argv[])
 {
 	struct lsys_opts *opts = get_lsys_opts();
 
-	struct copme_arg a_depth;
-	struct copme_arg a_axiom;
-	struct copme_arg a_degree_step;
-	struct copme_arg a_initial_degree;
-	struct copme_arg a_delta_depth;
-	struct copme_arg a_rule;
-	struct copme_arg a_example;
-
 	struct copme_long copts[] = {
-		{"depth", 'd', "Generation of the l-system", COPME_HASARG, &a_depth},
-		{"axiom", 'a', "Starting point of the l-system", COPME_HASARG, &a_axiom},
-		{"degree-step", 's', "Delta. Degrees to turn in + and -", COPME_HASARG, &a_degree_step},
-		{"initial-degree", 'i', "Initial degree of the turtle", COPME_HASARG, &a_initial_degree},
-		{"delta-depth", 'D', "Delta for each depth. Command '|'.", COPME_HASARG, &a_delta_depth},
-		{"rule", 'r', "Add a production rule to the l-system", COPME_HASARG, &a_rule},
-		{"list-examples", 'l', "List available examples", COPME_NOARG, 0},
-		{"example", 'e', "Use settings from an example", COPME_HASARG, &a_example},
-		{"raw", 0, "Don't paint anything. Just print the l-system", COPME_NOARG, 0},
-		{"help", 'h', "Display this information message", COPME_NOARG, 0},
-		{"version", 'V', "Display version information", COPME_NOARG, 0},
-		{0, 0, 0, 0, 0}
+		{"depth", 'd', "Generation of the l-system", COPME_HASARG},
+		{"axiom", 'a', "Starting point of the l-system", COPME_HASARG},
+		{"degree-step", 's', "Delta. Degrees to turn in + and -", COPME_HASARG},
+		{"initial-degree", 'i', "Initial degree of the turtle", COPME_HASARG},
+		{"delta-depth", 'D', "Delta for each depth. Command '|'.", COPME_HASARG},
+		{"rule", 'r', "Add a production rule to the l-system", COPME_HASARG},
+		{"list-examples", 'l', "List available examples", COPME_NOARG},
+		{"example", 'e', "Use settings from an example", COPME_HASARG},
+		{"raw", 0, "Don't paint anything. Just print the l-system", COPME_NOARG},
+		{"help", 'h', "Display this information message", COPME_NOARG},
+		{"version", 'V', "Display version information", COPME_NOARG},
+		{0, 0, 0, 0}
 	};
 
-	struct copme_long *o_list_examples = copme_option_named(copts, "list-examples");
-	struct copme_long *o_raw = copme_option_named(copts, "raw");
-	struct copme_long *o_help = copme_option_named(copts, "help");
-	struct copme_long *o_version = copme_option_named(copts, "version");
+	struct copme_group groups[] = {
+		{"Actions", "Actions for lsys", copts},
+		{0, 0, 0}
+	};
 
-	struct copme_state *cst = copme_init(copts, argc, argv);
+	struct copme_long *o_depth = copme_option_named(groups, "depth");
+	struct copme_long *o_axiom = copme_option_named(groups, "degree-step");
+	struct copme_long *o_degree_step = copme_option_named(groups, "degree-step");
+	struct copme_long *o_initial_degree = copme_option_named(groups, "initial-degree");
+	struct copme_long *o_delta_depth = copme_option_named(groups, "delta-depth");
+	struct copme_long *o_rule = copme_option_named(groups, "rule");
+	struct copme_long *o_list_examples = copme_option_named(groups, "list-examples");
+	struct copme_long *o_example = copme_option_named(groups, "example");
+	struct copme_long *o_raw = copme_option_named(groups, "raw");
+	struct copme_long *o_help = copme_option_named(groups, "help");
+	struct copme_long *o_version = copme_option_named(groups, "version");
+
+	struct copme_state *cst = copme_init(groups, argc, argv);
 	while (! copme_finished(cst)) {
 		copme_next(cst);
 
-		if (a_rule.specified) {
-			a_rule.specified = 0;
-			if (add_rule(opts, a_rule.data) > 0)
+		if (o_rule->arg->specified) {
+			o_rule->arg->specified = 0;
+			if (add_rule(opts, o_rule->arg->data) > 0)
 				goto err;
 		}
 		if (copme_error(cst))
@@ -141,23 +145,23 @@ int main(int argc, char *argv[])
 		goto suc;
 	}
 
-	if (a_example.specified)
-		if (lsys_set_example(a_example.data, opts) > 0) {
+	if (o_example->arg->specified)
+		if (lsys_set_example(o_example->arg->data, opts) > 0) {
 			fprintf(stderr, "Example with key '%s' not found.\n",
-					a_example.data);
+					o_example->arg->data);
 			goto err;
 		}
 
-	if (a_axiom.specified)
-		opts->axiom = a_axiom.data;
-	if (a_depth.specified)
-		opts->depth = atoi(a_depth.data);
-	if (a_degree_step.specified)
-		opts->degree_step = atof(a_degree_step.data) * M_PI / 180;
-	if (a_initial_degree.specified)
-		opts->initial_degree = -(atof(a_initial_degree.data) * M_PI / 180);
-	if (a_delta_depth.specified) {
-		double dd = atof(a_delta_depth.data);
+	if (o_axiom->arg->specified)
+		opts->axiom = o_axiom->arg->data;
+	if (o_depth->arg->specified)
+		opts->depth = atoi(o_depth->arg->data);
+	if (o_degree_step->arg->specified)
+		opts->degree_step = atof(o_degree_step->arg->data) * M_PI / 180;
+	if (o_initial_degree->arg->specified)
+		opts->initial_degree = -(atof(o_initial_degree->arg->data) * M_PI / 180);
+	if (o_delta_depth->arg->specified) {
+		double dd = atof(o_delta_depth->arg->data);
 		if (dd > 0 && dd <= 1)
 			opts->delta_depth = dd;
 		else {

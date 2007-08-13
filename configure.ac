@@ -99,14 +99,13 @@ dnl {{{ Gtk and cairo dependencies
 PKG_CHECK_MODULES([gtk], [gtk+-2.0 >= 2.8])
 PKG_CHECK_MODULES([gdk], [gdk-2.0])
 PKG_CHECK_MODULES([cairo], [cairo >= 1.2])
+PKG_CHECK_MODULES([copme], [copme >= 0.1])
 dnl }}}
 
 dnl {{{ output
 AC_CONFIG_HEADER(config.h)
 AC_OUTPUT(
 		  Makefile
-		  copme/Makefile
-		  copme/test/Makefile
 		  ctme/Makefile
 		  lsys/Makefile
 		  lsysutil/Makefile

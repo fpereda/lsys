@@ -2,7 +2,7 @@ CLEANFILES = *~
 MAINTAINERCLEANFILES = Makefile.in
 
 INCLUDES = -I$(top_srcdir)
-AM_CFLAGS = @LSYS_CFLAGS@ $(gtk_CFLAGS) $(gdk_CFLAGS) $(cairo_CFLAGS)
+AM_CFLAGS = @LSYS_CFLAGS@ $(gtk_CFLAGS) $(gdk_CFLAGS) $(cairo_CFLAGS) $(copme_CFLAGS)
 
 SUBDIRS = . test
 
@@ -17,7 +17,6 @@ lsys_SOURCES = draw.c  draw.h  \
 lsys_LDADD = \
              $(top_builddir)/lsys/liblsys.a \
              $(top_builddir)/lsysutil/liblsysutil.a \
-             $(top_builddir)/copme/libcopme.a \
-             $(gtk_LIBS) $(gdk_LIBS) $(cairo_LIBS)
+             $(gtk_LIBS) $(gdk_LIBS) $(cairo_LIBS) $(copme_LIBS)
 
 # vim: set et:
