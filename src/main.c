@@ -51,11 +51,6 @@ static void usage_pre(void)
 	printf("Usage: %s [options]\n\n", LSYS_PACKAGE);
 }
 
-static void usage_post(void)
-{
-	printf("\n");
-}
-
 static int putchar_wrapper(int c, unsigned short d)
 {
 	putchar(c);
@@ -86,15 +81,19 @@ int main(int argc, char *argv[])
 {
 	struct lsys_opts *opts = get_lsys_opts();
 
-	struct copme_long copts[] = {
+	struct copme_long acts[] = {
 		{"depth", 'd', "Generation of the l-system", COPME_HASARG},
 		{"axiom", 'a', "Starting point of the l-system", COPME_HASARG},
 		{"degree-step", 's', "Delta. Degrees to turn in + and -", COPME_HASARG},
 		{"initial-degree", 'i', "Initial degree of the turtle", COPME_HASARG},
-		{"delta-depth", 'D', "Delta for each depth. Command '|'.", COPME_HASARG},
+		{"delta-depth", 'D', "Delta for each depth. Command '|'", COPME_HASARG},
 		{"rule", 'r', "Add a production rule to the l-system", COPME_HASARG},
 		{"list-examples", 'l', "List available examples", COPME_NOARG},
 		{"example", 'e', "Use settings from an example", COPME_HASARG},
+		{0, 0, 0, 0}
+	};
+
+	struct copme_long otheracts[] = {
 		{"raw", 0, "Don't paint anything. Just print the l-system", COPME_NOARG},
 		{"help", 'h', "Display this information message", COPME_NOARG},
 		{"version", 'V', "Display version information", COPME_NOARG},
@@ -102,7 +101,8 @@ int main(int argc, char *argv[])
 	};
 
 	struct copme_group groups[] = {
-		{"Actions", "Actions for lsys", copts},
+		{"Actions", "Actions for lsys", acts},
+		{"Other actions", "Less-common actions for lsys", otheracts},
 		{0, 0, 0}
 	};
 
@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
 		if (copme_error(cst))
 			goto err;
 		if (o_help->specified) {
-			copme_usage(cst, usage_pre, usage_post);
+			copme_usage(cst, usage_pre, 0);
 			goto suc;
 		}
 	}
