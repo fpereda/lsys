@@ -179,9 +179,9 @@ int main(int argc, char *argv[])
 	launch_gui(&argc, &argv);
 
 suc:
-	free(cst);
+	copme_free(cst);
 	return EXIT_SUCCESS;
 err:
-	free(cst);
+	copme_free(cst);
 	return EXIT_FAILURE;
 }
