@@ -1,0 +1,8 @@
+Name: Koch Quad Curve
+Description: A Koch curve using a squares
+{
+	o->axiom = "F";
+	o->depth = 4;
+	o->degree_step = M_PI / 2;
+	o->rules['F'] = "F+F-F-F+F";
+}
