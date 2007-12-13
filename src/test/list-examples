@@ -17,8 +17,8 @@ if [[ ! -x ${LSYS} ]] ; then
 	exit 2
 fi
 
-flong=$(mktemp)
-fshort=$(mktemp)
+flong=$(mktemp lsysXXXXXX)
+fshort=$(mktemp lsysXXXXXX)
 check_tempfile_or_die "${flong}" "${fshort}"
 
 ${LSYS} --list-examples > "${flong}"

@@ -1,15 +1,28 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+dosed() {
+	if /usr/bin/sed --version &>/dev/null ; then
+		/usr/bin/sed "$@"
+		return $?
+	elif gnused --version &>/dev/null ; then
+		gnused "$@"
+		return $?
+	else
+		echo "!!! No usable sed here." 1>&2
+		exit 1
+	fi
+}
 
 get_name() {
-	sed -n -e '/^Name: \(.*\)$/s--\1-p' $1
+	dosed -n -e '/^Name: \(.*\)$/s--\1-p' $1
 }
 
 get_desc() {
-	sed -n -e '/^Description: \(.*\)$/s--\1-p' $1
+	dosed -n -e '/^Description: \(.*\)$/s--\1-p' $1
 }
 
 get_code() {
-	sed -n -e '/^{$/,/^}$/p' $1
+	dosed -n -e '/^{$/,/^}$/p' $1
 }
 
 if [[ $# != 3 ]] ; then
@@ -32,8 +45,8 @@ if [[ ! -e ${inputfile} || -d ${inputfile} ]] ; then
 	exit 3
 fi
 
-sed -e "/@GENERATED_FILE@/r ${generated}" \
-	-e '/@GENERATED_FILE@/d' \
+dosed -e "/@GENERATED_FILE@/r ${generated}" \
+	-e '/@GENERATED_FILE@/d' "${outputfile}" \
 	"${inputfile}" > "${outputfile}"
 
 for f in "${dir}"/* ; do
@@ -44,23 +57,20 @@ for f in "${dir}"/* ; do
 	code=$(get_code "${f}")
 	entry="{\"${name}\", \"${key}\", \"${desc}\", example_${func}},"
 	funhead='void example_'${func}'(struct lsys_opts *o)'
-	sed -i -e "/@LSYSEXAMPLE_DEFS@/i ${funhead};" \
-		"${outputfile}"
-	sed -i -e "/@LSYSEXAMPLE_ENTRIES@/i ${entry}" \
-		"${outputfile}"
-	sed -i -e "/@LSYSEXAMPLE_FUNCTIONS@/i\
-		${funhead}\n@LSYSEXAMPLE_FUNBODY@\n" \
-		"${outputfile}"
-	tmpfile=$(mktemp)
+	dosed -i -e "/@LSYSEXAMPLE_DEFS@/i ${funhead};" "${outputfile}"
+	dosed -i -e "/@LSYSEXAMPLE_ENTRIES@/i ${entry}" "${outputfile}"
+	dosed -i -e "/@LSYSEXAMPLE_FUNCTIONS@/i\
+			${funhead}\n@LSYSEXAMPLE_FUNBODY@\n" \
+			"${outputfile}"
+	tmpfile=$(mktemp lsysXXXXXX)
 	if [[ ! -w ${tmpfile} ]] ; then
 		echo "Can't write to temp file (${tmpfile})"
 		exit 4
 	fi
 	echo -e "${code}" > "${tmpfile}"
-	sed -i -e "/@LSYSEXAMPLE_FUNBODY@/r ${tmpfile}" \
-		-e '/@LSYSEXAMPLE_FUNBODY@/d' "${outputfile}"
+	dosed -i -e "/@LSYSEXAMPLE_FUNBODY@/r ${tmpfile}" \
+			-e '/@LSYSEXAMPLE_FUNBODY@/d' "${outputfile}"
 	rm -f "${tmpfile}"
 done
 
-sed -i -e '/@LSYSEXAMPLE_\(DEFS\|ENTRIES\|FUNCTIONS\)@/d' \
-	"${outputfile}"
+dosed -i -e '/@LSYSEXAMPLE_\(DEFS\|ENTRIES\|FUNCTIONS\)@/d' "${outputfile}"
